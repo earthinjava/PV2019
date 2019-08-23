@@ -4,14 +4,15 @@ package com.duan.utils;
 public class ArrayUtils {
 
 	/**
-	 * 	获得差值
-	 * @param x
-	 * @param y
-	 * @param x1
+	 * 获得数组x与y的x1差值
+	 * 
+	 * @param x  数组x
+	 * @param y  数组y
+	 * @param x1 
 	 * @return
 	 */
 	public static double getMidByTwoArrays(double[] x, double[] y, double x1) {
-		if(x==null||y==null) {
+		if (x == null || y == null) {
 			return Constant.ERROR_DOUBLE;
 		}
 		int len = x.length;
@@ -29,7 +30,8 @@ public class ArrayUtils {
 	}
 
 	/**
-	 * 	获得差值
+	 * 获得差值
+	 * 
 	 * @param array
 	 * @param x1
 	 * @return

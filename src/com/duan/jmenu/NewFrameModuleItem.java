@@ -27,7 +27,7 @@ public class NewFrameModuleItem extends JMenuItem {
 	 * 
 	 * @param name      菜单项名称
 	 * @param className 所要开启的新窗体className
-	 * @param mainFrame 主窗体
+	 * @param mainFrame 主窗体,用于将其锁定
 	 */
 	public NewFrameModuleItem(String name, String className, JFrame mainFrame) {
 		setText(name);
@@ -40,7 +40,7 @@ public class NewFrameModuleItem extends JMenuItem {
 							.newInstance();
 					// 设置锁定与解锁
 					FrameUtils.clockAndUnclockFatherFrame(mainFrame, jMenuItemStartFrame);
-				} catch ( ClassNotFoundException e1) {
+				} catch (ClassNotFoundException e1) {
 					e1.printStackTrace();
 				} catch (InstantiationException e1) {
 					// TODO 自动生成的 catch 块

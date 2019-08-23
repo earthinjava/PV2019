@@ -27,10 +27,10 @@ public class ImageUtils {
 		} else {
 			ratio = panelHeight / iconHeigt > panelWidth / iconWidth ? panelWidth / iconWidth : panelHeight / iconHeigt;
 		}
-		int iconH = (int) (iconHeigt * ratio - 5);
-		int iconW = (int) (iconWidth * ratio - 5);
-		int x = (int) ((panelWidth - iconW) / 2);
-		int y = (int) ((panelHeight - iconH) / 2);
+		int iconH = (int) Math.round(iconHeigt * ratio - 5.0);
+		int iconW = (int) Math.round(iconWidth * ratio - 5.0);
+		int x = (int) Math.round((panelWidth - iconW) / 2.0);
+		int y = (int) Math.round((panelHeight - iconH) / 2.0);
 		g.drawImage(img, x, y, iconW, iconH, jPanel);
 	}
 
@@ -54,10 +54,10 @@ public class ImageUtils {
 		} else {
 			ratio = panelHeight / iconHeigt > panelWidth / iconWidth ? panelWidth / iconWidth : panelHeight / iconHeigt;
 		}
-		int iconH = (int) (iconHeigt * ratio);
-		int iconW = (int) (iconWidth * ratio);
-		int x = (int) ((panelWidth - iconW) / 2);
-		int y = (int) ((panelHeight - iconH) / 2);
+		int iconH = (int) Math.round(iconHeigt * ratio);
+		int iconW = (int) Math.round(iconWidth * ratio);
+		int x = (int) Math.round((panelWidth - iconW) / 2.0);
+		int y = (int) Math.round((panelHeight - iconH) / 2.0);
 		if (g == null) {
 			return;
 		}

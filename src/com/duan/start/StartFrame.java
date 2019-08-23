@@ -1,4 +1,4 @@
-package com.duan.main;
+package com.duan.start;
 
 import java.awt.EventQueue;
 import java.awt.SystemColor;
@@ -29,7 +29,7 @@ import com.duan.module.queryImage.CarbonAllowTempFrame;
 import com.duan.utils.FontUtils;
 import com.duan.utils.FrameUtils;
 
-public class MainFrame extends JFrame {
+public class StartFrame extends JFrame implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane tabbedPane;
@@ -44,8 +44,7 @@ public class MainFrame extends JFrame {
 			public void run() {
 				try {
 					UIManager.setLookAndFeel(new NimbusLookAndFeel());
-					MainFrame frame = new MainFrame();
-					frame.setVisible(true);
+					new StartFrame().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -53,7 +52,7 @@ public class MainFrame extends JFrame {
 		});
 	}
 
-	public MainFrame() {
+	public StartFrame() {
 		FrameUtils.setFrameAtScreenCenter(this, 800, 800);
 		FontUtils.setDefaultFont(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -90,17 +89,11 @@ public class MainFrame extends JFrame {
 		dataMenu.addSeparator();
 
 		// 创建计算文件选项
-		JMenuItem calItem = new JMenuItem("计算文件");
+		JMenuItem calItem = new JMenuItem("计算库");
 		FontUtils.setDefaultFont(calItem);
 		dataMenu.add(calItem);
 		// 点击最终选项，添加tab界面
-		calItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				contentPanel.add(tabbedPane);
-				SelectCalculateFrame selectCalculateFrame = new SelectCalculateFrame(tabbedPane);
-				FrameUtils.clockAndUnclockFatherFrame(contentPanel, selectCalculateFrame);
-			}
-		});
+		calItem.addActionListener(this);
 		// 查图菜单
 		JMenu imgMenu = buildRootMenu("查图");
 		imgMenu.add(new NewFrameModuleItem("钢板许用温度下限", CarbonAllowTempFrame.class.getName(), this));
@@ -111,6 +104,12 @@ public class MainFrame extends JFrame {
 		messMenu.add(new NewFrameModuleItem("版本", VersionFrame.class.getName(), this));
 	}
 
+	/**
+	 * 创建一个根部菜单
+	 * 
+	 * @param rootName 根部菜单名称
+	 * @return
+	 */
 	private JMenu buildRootMenu(String rootName) {
 		JMenu rootMenu = new JMenu(rootName);
 		FontUtils.setDefaultFont(rootMenu);
@@ -118,5 +117,12 @@ public class MainFrame extends JFrame {
 		rootMenu.setBorder(UIManager.getBorder("Button.border"));
 		menuBar.add(rootMenu);
 		return rootMenu;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO 自动生成的方法存根
+		contentPanel.add(tabbedPane);
+		FrameUtils.clockAndUnclockFatherFrame(contentPanel, new SelectCalculateFrame(tabbedPane));	
 	}
 }

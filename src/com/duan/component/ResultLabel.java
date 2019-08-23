@@ -23,15 +23,6 @@ public class ResultLabel extends JLabel {
 	private JLabel requiredLabel;
 	private JLabel exJLabel;
 
-	/**
-	 * 
-	 * @param actualcompentComponent
-	 *            实际值容器
-	 * @param requiredLabel
-	 *            所需值标签
-	 * @param exJLabel
-	 *            余量标签
-	 */
 	public ResultLabel() {
 		setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		setSize(66, 20);
@@ -40,17 +31,11 @@ public class ResultLabel extends JLabel {
 		requiredLabel = new JLabel();
 		exJLabel = new JLabel();
 	}
-
-	/**
-	 * 显示结果
-	 * 
-	 * @param actual
-	 * @param required
-	 */
+	
 	public void showResult() {
 		double required = LabelAndFieldUtils.getDouble(requiredLabel);
 		double labelActual = LabelAndFieldUtils.getDouble(actualLabel);
-		double fieldActual = LabelAndFieldUtils.getDouble(actualField);	
+		double fieldActual = LabelAndFieldUtils.getDouble(actualField);
 		if (required == Constant.ERROR_DOUBLE) {
 			return;
 		}
@@ -63,8 +48,8 @@ public class ResultLabel extends JLabel {
 			actual = fieldActual;
 		} else {
 			actual = labelActual;
-		}	
-		LabelAndFieldUtils.showDoublePointTwo(exJLabel, 100 * actual / required - 100);		
+		}
+		LabelAndFieldUtils.showDoublePointTwo(exJLabel, 100 * actual / required - 100);
 		if (actual >= required) {
 			setForeground(Color.BLUE);
 			setText("合格");

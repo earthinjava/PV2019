@@ -29,6 +29,11 @@ public class ShowImageCenterPanel extends JPanel {
 		setLayout(null);
 	}
 
+	
+	public ShowImageCenterPanel(String imgPath) {		
+		this.imgPath = imgPath;		
+	}
+	
 	/**
 	 * 
 	 * @param width      设置面板宽度

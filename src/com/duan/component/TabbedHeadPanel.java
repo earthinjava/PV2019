@@ -26,24 +26,25 @@ public class TabbedHeadPanel extends JPanel {
 
 	private static final long serialVersionUID = -6880820187304313380L;
 	private HaveNeedSavePanel needSavePanel;
+	private JLabel nameLable;
 
 	/**
 	 * 添加一个可关闭的选项卡头部
 	 * 
-	 * @param name                    要显示的选项卡名称
-	 * @param jTabbedPane             总选项卡
-	 * @param moduleJPanel            选项卡对应的内容panel
-	 * @param haveSerializeableObject 具有可序列化字段的对象，若为空则不尽兴序列化操作
+	 * @param name              要显示的选项卡名称
+	 * @param jTabbedPane       总选项卡
+	 * @param moduleJPanel      选项卡对应的内容panel
+	 * @param HaveNeedSavePanel 需要序列化的面板，若为空则不序列化操作
 	 */
 	public TabbedHeadPanel(String name, JTabbedPane jTabbedPane, JPanel moduleJPanel, HaveNeedSavePanel needSavePanel) {
 		setLayout(new FlowLayout(FlowLayout.LEADING, 5, 0));
 		setOpaque(false);
-		this.needSavePanel = needSavePanel;		
-		JLabel nameLable = new JLabel(name);
+		this.needSavePanel = needSavePanel;
+		nameLable = new JLabel(name);
 		FontUtils.setDefaultFont(nameLable);
 		add(nameLable);
 		// 子标题添加一个图片
-		JPanel panel = new JPanel() {
+		JPanel closePanel = new JPanel() {
 			private static final long serialVersionUID = -8914246977293170671L;
 
 			@Override
@@ -55,10 +56,10 @@ public class TabbedHeadPanel extends JPanel {
 
 		};
 		// 设置背景完全透明
-		panel.setOpaque(false);
-		add(panel);
+		closePanel.setOpaque(false);
+		add(closePanel);
 		// 设定点击选项卡头部关闭图片，先弹出对话框提示是否保存到数据库，再关闭 选项卡对应的内容panel
-		panel.addMouseListener(new MouseAdapter() {
+		closePanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO 自动生成的方法存根
@@ -94,6 +95,7 @@ public class TabbedHeadPanel extends JPanel {
 	 * @param serializableObject
 	 */
 	private boolean seriallized() {
-		return SerializeUtils.seriallized(needSavePanel,needSavePanel, needSavePanel.getChiName(), needSavePanel.getLastName());
+		return SerializeUtils.seriallized(needSavePanel, needSavePanel, needSavePanel.getChiName(),
+				needSavePanel.getLastName());
 	}
 }

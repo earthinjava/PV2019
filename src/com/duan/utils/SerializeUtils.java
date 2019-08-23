@@ -15,9 +15,9 @@ public class SerializeUtils {
 	 * 将对象序列化保存
 	 * 
 	 * @param serializableObject 需要序列化的對象
-	 * @param lastName           要保存的文件的后缀名
 	 * @param messComp           信息提示框
 	 * @param folderName         文件夹名称
+	 * @param lastName           要保存的文件的后缀名
 	 * @return
 	 */
 	public static boolean seriallized(Serializable serializable,Component messComp, String folderName, String lastName) {
