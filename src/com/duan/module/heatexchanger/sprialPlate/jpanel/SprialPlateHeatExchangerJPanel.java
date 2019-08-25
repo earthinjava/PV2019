@@ -12,7 +12,7 @@ import com.duan.module.heatexchanger.sprialPlate.bean.SprialPlateHeatExchanger;
 import com.duan.utils.Constant;
 import com.duan.utils.FontUtils;
 
-public class SprialPlateHeatExchangerJPanel extends HaveNeedSavePanel {
+public class SprialPlateHeatExchangerJPanel extends HaveNeedSavePanel implements ChangeListener {
 
 	private static final long serialVersionUID = 1L;
 	private SprialPlateHeatExchanger sprialHeat = new SprialPlateHeatExchanger();
@@ -22,9 +22,6 @@ public class SprialPlateHeatExchangerJPanel extends HaveNeedSavePanel {
 	private StructuralDesignJPanel structuralDesignJPanel;
 	private ThermalCalculationJPanel thermalCalculationJPanel;
 
-	/**
-	 * Create the panel.
-	 */
 	public SprialPlateHeatExchangerJPanel() {
 		setBackground(Color.WHITE);
 		setLayout(null);
@@ -34,75 +31,26 @@ public class SprialPlateHeatExchangerJPanel extends HaveNeedSavePanel {
 		tabbedPane.setBounds(0, 0, 785, 720);
 		FontUtils.setDefaultFont(tabbedPane);
 		add(tabbedPane);
+
 		designConditionJPanel = new SPHEDesignConditionJPanel(sprialHeat);
-		designConditionJPanel.setLocation(0, 0);
 		addTabbedPane(designConditionJPanel, "设计条件");
+
 		preThermalCalculationJPanel = new PreThermalCalculationJPanel(sprialHeat);
-		preThermalCalculationJPanel.setLocation(0, 0);
 		addTabbedPane(preThermalCalculationJPanel, "换热初算");
+
 		structuralDesignJPanel = new StructuralDesignJPanel(sprialHeat);
-		structuralDesignJPanel.setLocation(0, 0);
 		addTabbedPane(structuralDesignJPanel, "结构设计");
+
 		thermalCalculationJPanel = new ThermalCalculationJPanel(sprialHeat);
-		thermalCalculationJPanel.setLocation(0, 0);
 		addTabbedPane(thermalCalculationJPanel, "换热计算");
 
-		tabbedPane.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				int index = tabbedPane.getSelectedIndex();
-				if (index == 1) {
-					designConditionJPanel.apply();
-					if (sprialHeat.getSpheDesignConditions() == null) {
-						tabbedPane.setSelectedIndex(0);
-					} else {
-						preThermalCalculationJPanel.preDisplay();
-					}
-				} else if (index == 2) {
-					designConditionJPanel.apply();
-					if (sprialHeat.getSpheDesignConditions() == null) {
-						tabbedPane.setSelectedIndex(0);
-						return;
-					}
-					preThermalCalculationJPanel.apply();
-					if (sprialHeat.getPreThermalCalculation() == null) {
-						tabbedPane.setSelectedIndex(1);
-					} else {
-						structuralDesignJPanel.preDisplay();
-					}
-
-				} else if (index == 3) {
-					designConditionJPanel.apply();
-					if (sprialHeat.getSpheDesignConditions() == null) {
-						tabbedPane.setSelectedIndex(0);
-						return;
-					}
-					preThermalCalculationJPanel.apply();
-					if (sprialHeat.getPreThermalCalculation() == null) {
-						tabbedPane.setSelectedIndex(1);
-					}
-					structuralDesignJPanel.preCal();
-					structuralDesignJPanel.actualCal();
-					if (sprialHeat.getStructuralDesign() == null) {
-						tabbedPane.setSelectedIndex(2);
-					} else {
-						thermalCalculationJPanel.preDisplay();
-					}
-
-				}
-
-			}
-		});
+		tabbedPane.addChangeListener(this);
 
 	}
 
 	private void addTabbedPane(JPanel moduleJPanel, String meduleName) {
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		tabbedPane.add(panel);
-		panel.setLayout(null);
-		tabbedPane.addTab(meduleName, null, panel, null);
-		panel.add(moduleJPanel);
+		moduleJPanel.setLocation(0, 0);
+		tabbedPane.addTab(meduleName, null, moduleJPanel, null);
 	}
 
 	@Override
@@ -115,5 +63,50 @@ public class SprialPlateHeatExchangerJPanel extends HaveNeedSavePanel {
 	public String getChiName() {
 		// TODO 自动生成的方法存根
 		return Constant.MODULE_CHINAME[2];
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent arg0) {
+		// TODO 自动生成的方法存根
+		int index = tabbedPane.getSelectedIndex();
+		if (index == 1) {
+			designConditionJPanel.apply();
+			if (sprialHeat.getSpheDesignConditions() == null) {
+				tabbedPane.setSelectedIndex(0);
+			} else {
+				preThermalCalculationJPanel.preDisplay();
+			}
+		} else if (index == 2) {
+			designConditionJPanel.apply();
+			if (sprialHeat.getSpheDesignConditions() == null) {
+				tabbedPane.setSelectedIndex(0);
+				return;
+			}
+			preThermalCalculationJPanel.apply();
+			if (sprialHeat.getPreThermalCalculation() == null) {
+				tabbedPane.setSelectedIndex(1);
+			} else {
+				structuralDesignJPanel.preDisplay();
+			}
+
+		} else if (index == 3) {
+			designConditionJPanel.apply();
+			if (sprialHeat.getSpheDesignConditions() == null) {
+				tabbedPane.setSelectedIndex(0);
+				return;
+			}
+			preThermalCalculationJPanel.apply();
+			if (sprialHeat.getPreThermalCalculation() == null) {
+				tabbedPane.setSelectedIndex(1);
+			}
+			structuralDesignJPanel.preCal();
+			structuralDesignJPanel.actualCal();
+			if (sprialHeat.getStructuralDesign() == null) {
+				tabbedPane.setSelectedIndex(2);
+			} else {
+				thermalCalculationJPanel.preDisplay();
+			}
+
+		}
 	}
 }

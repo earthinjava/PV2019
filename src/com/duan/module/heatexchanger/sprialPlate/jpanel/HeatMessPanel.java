@@ -15,9 +15,6 @@ import com.duan.utils.PanelUtils;
 
 public class HeatMessPanel extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private SprialPlateHeatExchanger sprialHeat;
 	private JLabel hotCalTempLabel;

@@ -25,12 +25,9 @@ import com.duan.utils.JOptionPaneUtils;
 import com.duan.utils.LabelAndFieldUtils;
 import com.duan.utils.PanelUtils;
 
-public class SPHEDesignConditionJPanel extends JPanel {
+public class SPHEDesignConditionJPanel extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
-	/**
-	 * Create the panel.
-	 */
 	private SprialPlateHeatExchanger sprialHeat;
 	private String preImagePathI = "src/img/SprialPlateHeatExchanger/preImagePathI.png";
 	private String preImagePathII = "src/img/SprialPlateHeatExchanger/preImagePathII.png";
@@ -159,7 +156,7 @@ public class SPHEDesignConditionJPanel extends JPanel {
 
 		JLabel label_15 = new JLabel("\u51FA\u53E3\u6E29\u5EA6");
 		label_15.setBounds(10, 100, 60, 20);
-		designConPanel.add(label_15);
+		designConPanel.add(label_15); 
 
 		outletTemHotField = new PureNumField();
 		outletTemHotField.setText("35");
@@ -237,32 +234,7 @@ public class SPHEDesignConditionJPanel extends JPanel {
 		streamBox.setBounds(81, 220, 141, 20);
 		designConPanel.add(streamBox);
 
-		typeBox.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if (typeBox.getSelectedIndex() == 0) {
-					hotSpiralFlowtBox.setSelectedIndex(0);
-					coldSpiralFlowtBox.setSelectedIndex(0);
-					hotSpiralFlowtBox.setEnabled(false);
-					coldSpiralFlowtBox.setEnabled(false);
-				} else if (typeBox.getSelectedIndex() == 1) {
-					hotSpiralFlowtBox.setSelectedIndex(0);
-					coldSpiralFlowtBox.setSelectedIndex(0);
-					hotSpiralFlowtBox.setEnabled(false);
-					coldSpiralFlowtBox.setEnabled(false);
-				} else if (typeBox.getSelectedIndex() == 2) {
-					hotSpiralFlowtBox.setSelectedIndex(0);
-					coldSpiralFlowtBox.setSelectedIndex(0);
-					hotSpiralFlowtBox.setEnabled(false);
-					coldSpiralFlowtBox.setEnabled(false);
-				} else {
-					hotSpiralFlowtBox.setEnabled(true);
-					coldSpiralFlowtBox.setEnabled(true);
-				}
-
-			}
-		});		
+		typeBox.addActionListener(this);		
 		PanelUtils.setAllComFont(designConPanel);
 	}
 
@@ -401,6 +373,32 @@ public class SPHEDesignConditionJPanel extends JPanel {
 		LabelAndFieldUtils.showDoublePointTwo(maffFlowLabelCold,
 				designConditions.getColdDesignCondition().getMassFlow() * 3600);
 
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if (typeBox.getSelectedIndex() == 0) {
+			hotSpiralFlowtBox.setSelectedIndex(0);
+			coldSpiralFlowtBox.setSelectedIndex(0);
+			hotSpiralFlowtBox.setEnabled(false);
+			coldSpiralFlowtBox.setEnabled(false);
+		} else if (typeBox.getSelectedIndex() == 1) {
+			hotSpiralFlowtBox.setSelectedIndex(0);
+			coldSpiralFlowtBox.setSelectedIndex(0);
+			hotSpiralFlowtBox.setEnabled(false);
+			coldSpiralFlowtBox.setEnabled(false);
+		} else if (typeBox.getSelectedIndex() == 2) {
+			hotSpiralFlowtBox.setSelectedIndex(0);
+			coldSpiralFlowtBox.setSelectedIndex(0);
+			hotSpiralFlowtBox.setEnabled(false);
+			coldSpiralFlowtBox.setEnabled(false);
+		} else {
+			hotSpiralFlowtBox.setEnabled(true);
+			coldSpiralFlowtBox.setEnabled(true);
+		}
+
+	
 	}
 
 }

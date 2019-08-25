@@ -68,7 +68,6 @@ public class NozzleSpeeJPanel extends JPanel {
 		hotInletIDField.setBounds(133, 40, 66, 20);
 		panel.add(hotInletIDField);
 
-		// ʵʱ����Ƚ�Ԥ���ٶ�
 		hotInletIDField.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override

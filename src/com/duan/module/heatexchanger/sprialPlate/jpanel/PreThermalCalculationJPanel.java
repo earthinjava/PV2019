@@ -14,7 +14,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import com.duan.component.PureNumField;
-import com.duan.component.image.ShowImageFrame;
+import com.duan.component.ShowImgButton;
 import com.duan.module.heatexchanger.sprialPlate.bean.PreThermalCalculation;
 import com.duan.module.heatexchanger.sprialPlate.bean.SprialPlateHeatExchanger;
 import com.duan.module.heatexchanger.sprialPlate.bean.designCondition.SPHEDesignConditions;
@@ -22,11 +22,8 @@ import com.duan.utils.Constant;
 import com.duan.utils.LabelAndFieldUtils;
 import com.duan.utils.PanelUtils;
 
-public class PreThermalCalculationJPanel extends JPanel {
-
-	/**
-	 * 
-	 */
+public class PreThermalCalculationJPanel extends JPanel implements ActionListener {
+	
 	private static final long serialVersionUID = 1L;
 	private SprialPlateHeatExchanger sprialHeat;
 	private JPanel contentPane;
@@ -46,7 +43,7 @@ public class PreThermalCalculationJPanel extends JPanel {
 		this.sprialHeat = sprialHeat;
 
 		setBounds(new Rectangle(0, 0, 800, 800));
-		setLayout(null);
+		setLayout(null); 
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBounds(new Rectangle(0, 0, 800, 800));
@@ -97,14 +94,8 @@ public class PreThermalCalculationJPanel extends JPanel {
 		preKField.setBounds(156, 159, 66, 20);
 		preJPanel.add(preKField);
 
-		JButton sprialPlateHeatExchangerKButton = new JButton("\u67E5\u56FE");
-
-		sprialPlateHeatExchangerKButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new ShowImageFrame(PreThermalCalculation.getPreSprialPlateHeatExchangerKFigPathString(), contentPane);
-			}
-		});
-
+		ShowImgButton sprialPlateHeatExchangerKButton = new ShowImgButton(
+				PreThermalCalculation.getPreSprialPlateHeatExchangerKFigPathString());
 		sprialPlateHeatExchangerKButton.setBounds(325, 160, 108, 20);
 		preJPanel.add(sprialPlateHeatExchangerKButton);
 
@@ -141,12 +132,7 @@ public class PreThermalCalculationJPanel extends JPanel {
 		JButton preThermalCalButton = new JButton("\u8BA1\u7B97");
 		preThermalCalButton.setBounds(10, 252, 423, 25);
 		preJPanel.add(preThermalCalButton);
-		preThermalCalButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				apply();
-			}
-		});
+		preThermalCalButton.addActionListener(this);
 
 		JLabel lblP = new JLabel("P");
 		lblP.setBounds(10, 69, 21, 20);
@@ -166,13 +152,8 @@ public class PreThermalCalculationJPanel extends JPanel {
 		RLabel.setBounds(156, 39, 66, 20);
 		preJPanel.add(RLabel);
 
-		JButton temperatureDifferenceCorrectionFactorButton = new JButton("\u67E5\u56FE");
-		temperatureDifferenceCorrectionFactorButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new ShowImageFrame(PreThermalCalculation.getTemperatureDifferenceCorrectionFactorFigPathString(),
-						contentPane);
-			}
-		});
+		ShowImgButton temperatureDifferenceCorrectionFactorButton = new ShowImgButton(
+				PreThermalCalculation.getTemperatureDifferenceCorrectionFactorFigPathString());
 		temperatureDifferenceCorrectionFactorButton.setBounds(325, 99, 108, 20);
 		preJPanel.add(temperatureDifferenceCorrectionFactorButton);
 
@@ -218,5 +199,11 @@ public class PreThermalCalculationJPanel extends JPanel {
 		LabelAndFieldUtils.showDoublePointTwo(logarithmicTemperatureDifferenceLabel,
 				thermalCalculation.getLogarithmicTemperatureDifference());
 		LabelAndFieldUtils.showDoublePointTwo(preAreaLabel, thermalCalculation.getPreHeatTransferArea());
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO 自动生成的方法存根
+		apply();
 	}
 }
