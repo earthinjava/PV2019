@@ -79,8 +79,6 @@ public class TabbedHeadPanel extends JPanel {
 					if (seriallized()) {
 						JOptionPaneUtils.warningMess(moduleJPanel, "已添加到数据库中");
 						jTabbedPane.remove(moduleJPanel);
-					} else {
-						JOptionPaneUtils.warningMess(moduleJPanel, "未添加到数据库中");
 					}
 				} else {
 					jTabbedPane.remove(moduleJPanel);

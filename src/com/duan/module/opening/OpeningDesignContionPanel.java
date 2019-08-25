@@ -21,7 +21,7 @@ import com.duan.vessel.GB150;
 import com.duan.vessel.designCondition.DesignCondition;
 import com.duan.vessel.designCondition.DesignConditionPanel;
 
-public class OpeningDesignContionPanel extends JPanel implements DesignConditionPanel {
+public class OpeningDesignContionPanel extends JPanel implements DesignConditionPanel,ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private PureNumField designTemField;
@@ -98,11 +98,7 @@ public class OpeningDesignContionPanel extends JPanel implements DesignCondition
 
 		PanelUtils.setAllComFont(this);
 
-		applybutton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				apply();
-			}
-		});
+		applybutton.addActionListener(this);
 	}
 
 	public void hideApplyButton() {
@@ -142,5 +138,11 @@ public class OpeningDesignContionPanel extends JPanel implements DesignCondition
 	public PureNumField getDesignTempField() {
 		// TODO Auto-generated method stub
 		return designTemField;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO 自动生成的方法存根
+		apply();
 	}
 }

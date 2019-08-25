@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.DefaultComboBoxModel;
@@ -56,6 +57,7 @@ public class HeadAndShellShowPanel extends HaveNeedSavePanel implements ActionLi
 	private JLabel longLabel;
 	private MeterialButton meterialButton;
 	private HeadAndShell headAndShell;
+	private double levelHeigt;
 
 	public HeadAndShellShowPanel() {
 
@@ -139,16 +141,7 @@ public class HeadAndShellShowPanel extends HaveNeedSavePanel implements ActionLi
 		isHorizontalBox.setBounds(74, 10, 81, 20);
 		contentPanel.add(isHorizontalBox);
 
-		isHorizontalBox.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (isHorizontalBox.getSelectedIndex() == 0) {
-					longLabel.setText("外部总长");
-				} else if (isHorizontalBox.getSelectedIndex() == 1) {
-					longLabel.setText("外部总高");
-				}
-			}
-		});
+		isHorizontalBox.addActionListener(new BoxActionListener());
 
 		JLabel label_8 = new JLabel("\u6750\u6599");
 		label_8.setBounds(10, 70, 66, 20);
@@ -326,8 +319,44 @@ public class HeadAndShellShowPanel extends HaveNeedSavePanel implements ActionLi
 		PanelUtils.setAllComFont(contentPanel);
 	}
 
+	class BoxActionListener implements ActionListener, Serializable {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -4679975539033118276L;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO 自动生成的方法存根
+			if (isHorizontalBox.getSelectedIndex() == 0) {
+				longLabel.setText("外部总长");
+			} else if (isHorizontalBox.getSelectedIndex() == 1) {
+				longLabel.setText("外部总高");
+			}
+
+		}
+
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		apply();
+	}
+
+	public void apply() {
+		// TODO 自动生成的方法存根
+		if (getInput()) {
+			showOutput();
+		}
+	}
+
+	/**
+	 * 获得输入
+	 * 
+	 * @return
+	 */
+	private boolean getInput() {
 		try {
 			// 获得立式还是卧式容器
 			boolean isHorizontal;
@@ -342,37 +371,37 @@ public class HeadAndShellShowPanel extends HaveNeedSavePanel implements ActionLi
 			Meterial meterial = meterialButton.getMeterial();
 			if (meterial == null) {
 				JOptionPaneUtils.warningMess(contentPanel, "请先选择材料");
-				return;
+				return false;
 			}
 			// 获得内径
 			double id = iDTextField.getDoubleNoNull("请输入内径");
 			if (id == Constant.ERROR_DOUBLE) {
-				return;
+				return false;
 			}
 			// 筒体长度
 			double length = shellLengthField.getDoubleNoNull("请输入筒体长度");
 			if (length == Constant.ERROR_DOUBLE) {
-				return;
+				return false;
 			}
 			// 筒体成型厚度
 			double shellFormingThick = shellFormingThickTextField.getDoubleNoNull("请输入筒体成型厚度");
 			if (shellFormingThick == Constant.ERROR_DOUBLE) {
-				return;
+				return false;
 			}
 			// 封头成型厚度
 			double headFormingThick = headFormingThickTextField.getDoubleNoNull("请输入封头成型厚度");
 			if (headFormingThick == Constant.ERROR_DOUBLE) {
-				return;
+				return false;
 			}
 			// 间隔高度
-			double levelHeigt = levelHeightField.getDoubleNoNull("请输入间隔高度");
-			if (levelHeigt == Constant.ERROR_DOUBLE) {
-				return;
+			levelHeigt = levelHeightField.getDoubleNoNull("请输入间隔高度");
+			if (levelHeigt == Constant.ERROR_DOUBLE || levelHeigt <= 0) {
+				return false;
 			}
 			// 介质密度
 			double mediumDensity = mediumDensityField.getDoubleNoNull("请输入介质密度");
 			if (mediumDensity == Constant.ERROR_DOUBLE) {
-				return;
+				return false;
 			}
 			// 创建筒体对象
 			CylinderShell cylinderShell = new CylinderShell(id, shellFormingThick, meterial, length, isHorizontal);
@@ -399,26 +428,17 @@ public class HeadAndShellShowPanel extends HaveNeedSavePanel implements ActionLi
 			headAndShell.setCylinderShell(cylinderShell);
 			headAndShell.setMediumDensity(mediumDensity);
 			headAndShell.setHorizontal(cylinderShell.isHorizontal());
-			showOutput();
-			// table show
-			tablePanel.removeAll();
-			// 根据高度间隔，获得容积数组
-			Double[][] hvs = headAndShell.getMessByLevelHeigt(levelHeigt);
-			String[] tableTitle = { "液位高度mm", "容积m³", "充装质量kg", "充满率%", "水静压KPa", "介质静压KPa" };
-			JTable table = new JTable(hvs, tableTitle);
-			FontUtils.setDefaultFont(table.getTableHeader());
-			FontUtils.setDefaultFont(table);
-			JScrollPane jScrollPane = new JScrollPane(table);
-			jScrollPane.setBounds(0, 0, 559, 614);
-			jScrollPane.setBackground(SystemColor.menu);
-			tablePanel.add(jScrollPane);
-			tablePanel.repaint();
+			return true;
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException e1) {
 			e1.printStackTrace();
 		}
+		return false;
 	}
 
+	/**
+	 * 显示计算结果
+	 */
 	private void showOutput() {
 		// 显示信息
 		LabelAndFieldUtils.showDoublePointTwo(meterialDensityLable,
@@ -433,7 +453,19 @@ public class HeadAndShellShowPanel extends HaveNeedSavePanel implements ActionLi
 		LabelAndFieldUtils.showDoublePointTwo(totalWeightLable,
 				headAndShell.getLoadWeigth() + headAndShell.getWeight());
 		LabelAndFieldUtils.showDoublePointTwo(lengthLabel, headAndShell.getLength());
-	}	
+		// 根据高度间隔，获得容积数组
+		tablePanel.removeAll();
+		Double[][] hvs = headAndShell.getMessByLevelHeigt(levelHeigt);
+		String[] tableTitle = { "液位高度mm", "容积m³", "充装质量kg", "充满率%", "水静压KPa", "介质静压KPa" };
+		JTable table = new JTable(hvs, tableTitle);
+		FontUtils.setDefaultFont(table.getTableHeader());
+		FontUtils.setDefaultFont(table);
+		JScrollPane jScrollPane = new JScrollPane(table);
+		jScrollPane.setBounds(0, 0, 559, 614);
+		jScrollPane.setBackground(SystemColor.menu);
+		tablePanel.add(jScrollPane);
+		tablePanel.repaint();
+	}
 
 	@Override
 	public boolean isNeedSave() {

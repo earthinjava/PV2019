@@ -58,11 +58,7 @@ public class OpengingMedulePanel extends HaveNeedSavePanel {
 		openingPanel.setBackground(SystemColor.menu);
 		pane.add(openingPanel);
 	}
-
-	public Openging getOpenging() {
-		return openging;
-	}
-
+	
 	/**
 	 * 判断输入条件是否为空，为空则不需保存
 	 */

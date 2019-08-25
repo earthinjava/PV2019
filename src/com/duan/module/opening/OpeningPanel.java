@@ -3,6 +3,7 @@ package com.duan.module.opening;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -32,7 +33,7 @@ import com.duan.utils.LabelAndFieldUtils;
 import com.duan.utils.PanelUtils;
 import com.duan.vessel.GB150;
 
-public class OpeningPanel extends JPanel {
+public class OpeningPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private ShellPanel shellPanel;
@@ -60,7 +61,7 @@ public class OpeningPanel extends JPanel {
 	private A2 a2;
 	private A3 a3;
 	private A4 a4;
-
+	private ShowImageCenterPanel imgPanel;
 	/**
 	 * Create the panel.
 	 */
@@ -71,6 +72,7 @@ public class OpeningPanel extends JPanel {
 		this.pipePanel = pipePanel;
 		this.designConJPanel = designConJPanel;
 		this.openging = openging;
+		this.imgPanel=imgPanel;
 
 		setToolTipText("");
 		setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -140,25 +142,7 @@ public class OpeningPanel extends JPanel {
 		haveReinforcementPlate.setBounds(10, 70, 91, 20);
 		add(haveReinforcementPlate);
 
-		haveReinforcementPlate.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				if (haveReinforcementPlate.isSelected()) {
-					reinforceThick.setEnabled(true);
-					reinforceOD.setEnabled(true);
-					reinType.setEnabled(true);
-					imgPanel.setImgPath("src/img/opening/showB.png");
-					imgPanel.repaint();
-				} else {
-					reinforceOD.setText("");
-					reinforceThick.setText("");
-					reinforceThick.setEnabled(false);
-					reinforceOD.setEnabled(false);
-					reinType.setEnabled(false);
-					imgPanel.setImgPath("src/img/opening/showA.png");
-					imgPanel.repaint();
-				}
-			}
-		});
+		haveReinforcementPlate.addChangeListener(new RadioButtonChangeListener() );
 
 		reinType = new JComboBox<String>();
 		reinType.setName("");
@@ -169,14 +153,7 @@ public class OpeningPanel extends JPanel {
 		reinType.setBounds(117, 70, 86, 20);
 		add(reinType);
 
-		reinType.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String rein = (String) (reinType.getSelectedItem());
-				double od = ReinforcementPlate.getStandardPlateOD(rein);
-				reinforceOD.setText(od + "");
-			}
-		});
+		reinType.addActionListener(new ReinTypeActionListener());
 
 		JLabel lblAr = new JLabel("Ar\u6240\u9700\u8865\u5F3A\u9762\u79EF");
 		lblAr.setBounds(10, 189, 104, 20);
@@ -274,11 +251,54 @@ public class OpeningPanel extends JPanel {
 		add(applyButton);
 
 		PanelUtils.setAllComFont(this);
-		applyButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				apply();
+		applyButton.addActionListener(this);
+	}
+
+	class ReinTypeActionListener implements ActionListener, Serializable {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -8367046953510884609L;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO 自动生成的方法存根
+			String rein = (String) (reinType.getSelectedItem());
+			double od = ReinforcementPlate.getStandardPlateOD(rein);
+			reinforceOD.setText(od + "");
+		}
+
+	}
+
+	class RadioButtonChangeListener implements ChangeListener, Serializable {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -6716995198812773162L;
+
+		@Override
+		public void stateChanged(ChangeEvent e) {
+			// TODO 自动生成的方法存根
+			if (haveReinforcementPlate.isSelected()) {
+				reinforceThick.setEnabled(true);
+				reinforceOD.setEnabled(true);
+				reinType.setEnabled(true);
+				imgPanel.setImgPath("src/img/opening/showB.png");
+				imgPanel.repaint();
+			} else {
+				reinforceOD.setText("");
+				reinforceThick.setText("");
+				reinforceThick.setEnabled(false);
+				reinforceOD.setEnabled(false);
+				reinType.setEnabled(false);
+				imgPanel.setImgPath("src/img/opening/showA.png");
+				imgPanel.repaint();
 			}
-		});
+
+		}
+
 	}
 
 	public void apply() {
@@ -293,24 +313,24 @@ public class OpeningPanel extends JPanel {
 		if (!pipePanel.isSucessApply()) {
 			return;
 		}
-		getInput();
-		showOutput();
+		if (getInput())
+			showOutput();
 	}
 
-	public void getInput() {
+	public boolean getInput() {
 		ar = new Ar(openging);
 		if (GB150.isOpeningOutOfSpecGB150(openging)) {
 			JOptionPaneUtils.warningMess(this, "开孔补强计算超出GB150计算范围");
-			return;
+			return false;
 		}
 		if (!openging.isNeedCal()) {
 			JOptionPaneUtils.warningMess(this, "此开孔若满足与其他开孔距离要求可免除计算");
-			return;
+			return false;
 		}
 
 		double outLth = h1.getDoubleNoNull("请输入接管外伸高度");
 		if (outLth == Constant.ERROR_DOUBLE) {
-			return;
+			return false;
 		}
 		double inLth = h2.getDoubleCanNull();
 		if (inLth == Constant.ERROR_DOUBLE) {
@@ -328,23 +348,23 @@ public class OpeningPanel extends JPanel {
 		if (haveReinforcementPlate.isSelected()) {
 			double oDia = reinforceOD.getDoubleNoNull("请输入补强圈外径");
 			if (oDia == Constant.ERROR_DOUBLE) {
-				return;
+				return false;
 			}
-			if (oDia < pipePanel.getPipe().getOutDia()) {
+			if (oDia < openging.getPipe().getOutDia()) {
 				JOptionPaneUtils.warningMess(this, "补强圈外径小于接管外径，请重新输入");
-				return;
+				return false;
 			}
 			double rt = reinforceThick.getDoubleNoNull("请输入补强圈厚度");
 			if (rt == Constant.ERROR_DOUBLE) {
-				return;
+				return false;
 			}
-			double iDia = pipePanel.getPipe().getOutDia();
-			double c2 = shellPanel.getShell().getC2();
-			reinforcementPlate = new ReinforcementPlate(oDia, iDia, c2, rt, shellPanel.getShell().getMeterial());
+			double iDia = openging.getPipe().getOutDia();
+			double c2 = openging.getShell().getC2();
+			reinforcementPlate = new ReinforcementPlate(oDia, iDia, c2, rt, openging.getShell().getMeterial());
 			openging.setReinforcementPlate(reinforcementPlate);
 			if (!openging.isPlateCanUsed(shellPanel)) {
 				openging.setReinforcementPlate(null);
-				return;
+				return false;
 			}
 			a4 = new A4(reinforcementPlate);
 			ae = new Ae(a1, a2, a3, a4);
@@ -354,6 +374,7 @@ public class OpeningPanel extends JPanel {
 		}
 		openging.setAe(ae);
 		openging.setAr(ar);
+		return true;
 	}
 
 	public void showOutput() {
@@ -364,28 +385,10 @@ public class OpeningPanel extends JPanel {
 		resultJLabel.showResult();
 	}
 
-	/**
-	 * 設置反序列化
-	 * 
-	 * @param openging2
-	 */
-	public void setOpening(Openging openging) {
-		// TODO Auto-generated method stub
-		this.openging = openging;
-		ar = openging.getAr();
-		ae = openging.getAe();
-		a1 = ae.getA1();
-		a2 = ae.getA2();
-		a3 = ae.getA3();
-		a4 = ae.getA4();
-		if (openging.getReinforcementPlate() != null) {
-			haveReinforcementPlate.setSelected(true);
-			reinforceOD.setText(openging.getReinforcementPlate().getThickness());
-		}
-		h1.setText(openging.getAe().getA2().getOutLegth());
-		h2.setText(openging.getAe().getA2().getIntLegth());
-		a3TextField.setText(openging.getAe().getA3().getValue());
-		showOutput();
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO 自动生成的方法存根
+		apply();
 	}
 
 }

@@ -22,7 +22,7 @@ import com.duan.vessel.designCondition.DesignConditionPanel;
 import com.duan.vessel.shell.CylinderShell;
 import com.duan.vessel.shell.Shell;
 
-public class ShellPanel extends JPanel {
+public class ShellPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private PureNumField shellDia;
@@ -185,11 +185,7 @@ public class ShellPanel extends JPanel {
 
 		PanelUtils.setAllComFont(this);
 
-		applybutton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				apply();
-			}
-		});
+		applybutton.addActionListener(this);
 
 	}
 
@@ -215,54 +211,66 @@ public class ShellPanel extends JPanel {
 		add(shellStress);
 	}
 
+	/**
+	 * 执行按钮
+	 */
 	public void apply() {
 		designConditionPanel.apply();
 		if (!designConditionPanel.isSucessApply()) {
 			isSucessApply = false;
 			return;
 		}
-		getInput();
-		showOutput();
+		if (getInput())
+			showOutput();
 	}
 
-	public void getInput() {
+	/**
+	 * 获得输入
+	 * 
+	 * @return
+	 */
+	public boolean getInput() {
 		double shellID = shellDia.getDoubleNoNull("请输入筒体内径");
 		if (shellID == Constant.ERROR_DOUBLE) {
 			isSucessApply = false;
-			return;
+			return false;
 		}
 		double nThick = nThickField.getDoubleNoNull("请输入筒体厚度");
 		if (nThick == Constant.ERROR_DOUBLE) {
 			isSucessApply = false;
-			return;
+			return false;
 		}
 		Meterial shellMeterial = meterialButton.getMeterial();
 		double shellE = shellEff.getDoubleNoNull("请输入筒体焊接接头系数");
 		if (shellE == Constant.ERROR_DOUBLE) {
 			isSucessApply = false;
-			return;
+			return false;
 		}
 		double shellC11 = shellC1.getDoubleNoNull("请输入筒体腐蚀裕量");
 		if (shellC11 == Constant.ERROR_DOUBLE) {
 			isSucessApply = false;
-			return;
+			return false;
 		}
 		double shellC12 = shellC2.getDoubleNoNull("请输入筒体厚度负偏差");
 		if (shellC12 == Constant.ERROR_DOUBLE) {
 			isSucessApply = false;
-			return;
+			return false;
 		}
 		double stress = shellStress.getDoubleNoNull("请输入筒体材料许用应力");
 		if (stress == Constant.ERROR_DOUBLE) {
 			isSucessApply = false;
-			return;
+			return false;
 		}
 		shell = new CylinderShell(shellID, nThick, shellMeterial, stress, shellE, shellC11, shellC12,
 				designConditionPanel.getDsgcon());
 		openging.setShell(shell);
+		return true;
 	}
 
-	public void showOutput() {		
+	/**
+	 * 显示输出
+	 */
+	public void showOutput() {
 		LabelAndFieldUtils.showDoublePointTwo(shellCalThick, shell.getCalculateThickness());
 		LabelAndFieldUtils.showDoublePointTwo(shellMinThick, shell.getMinThickness());
 		LabelAndFieldUtils.showDoublePointTwo(od, shell.getOutDia());
@@ -273,27 +281,11 @@ public class ShellPanel extends JPanel {
 
 	public boolean isSucessApply() {
 		return isSucessApply;
-	}
+	}	
 
-	public Shell getShell() {
-		return shell;
-	}
-
-	/**
-	 * 设置筒体，用于反序列化的显示
-	 * 
-	 * @param shell2
-	 */
-	public void setShell(Shell shell) {
-		// TODO Auto-generated method stub
-		this.shell=shell;
-		shellDia.setText(shell.getInterDia());
-		nThickField.setText(shell.getNThick());
-		meterialButton.setMeterial(shell.getMeterial());
-		shellC1.setText(shell.getC1());
-		shellC2.setText(shell.getC2());
-		shellEff.setText(shell.getEff());
-		shellStress.setText(shell.getAllowStress());
-		showOutput();
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO 自动生成的方法存根
+		apply();
 	}
 }

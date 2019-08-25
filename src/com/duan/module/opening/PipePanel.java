@@ -3,6 +3,7 @@ package com.duan.module.opening;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -22,7 +23,7 @@ import com.duan.vessel.designCondition.DesignConditionPanel;
 import com.duan.vessel.pipe.Pipe;
 import com.duan.vessel.pipe.StraightPipe;
 
-public class PipePanel extends JPanel {
+public class PipePanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private DesignConditionPanel designConJPanel;
@@ -148,11 +149,7 @@ public class PipePanel extends JPanel {
 		add(applybutton);
 		applybutton.setBackground(SystemColor.control);
 		add(label_2);
-		applybutton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				apply();
-			}
-		});
+		applybutton.addActionListener(this);
 
 		JLabel label_3 = new JLabel("\u7ED3\u679C");
 		label_3.setBounds(10, 370, 74, 20);
@@ -194,11 +191,7 @@ public class PipePanel extends JPanel {
 		meterialButton.setDesignTempField(dsConPanel.getDesignTempField());
 
 		nThickField = meterialButton.getnThickField();
-		nThickField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				pipeC2.setText(Double.parseDouble(nThickField.getText()) * 0.1 + "");
-			}
-		});
+		nThickField.addActionListener(new FieldActionListener());
 		nThickField.setBounds(81, 70, 66, 20);
 		add(nThickField);
 
@@ -219,45 +212,58 @@ public class PipePanel extends JPanel {
 		PanelUtils.setAllComFont(this);
 	}
 
+	class FieldActionListener implements ActionListener, Serializable {
+
+		private static final long serialVersionUID = 7993655189843479764L;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO 自动生成的方法存根
+			pipeC2.setText(Double.parseDouble(nThickField.getText()) * 0.1 + "");
+		}
+
+	}
+
 	public void apply() {
 		designConJPanel.apply();
 		if (!designConJPanel.isSucessApply()) {
-			setSucessApply(false);
+			isSucessApply = false;
 			return;
 		}
-		getInput();
-		showOutput();
+		if (getInput())
+			showOutput();
 	}
 
-	public void getInput() {
+	public boolean getInput() {
 		double pID = pipeDia.getDoubleNoNull("请输入接管内径");
 		if (pID == Constant.ERROR_DOUBLE) {
 			isSucessApply = false;
-			return;
+			return false;
 		}
 		Meterial pMeterial = meterialButton.getMeterial();
 		double pStr = pipeStress.getDoubleNoNull("请输入接管许用应力");
 		if (pStr == Constant.ERROR_DOUBLE) {
 			isSucessApply = false;
-			return;
+			return false;
 		}
 		double pE = pipeEff.getDoubleNoNull("请输入接管焊接接头系数");
 		if (pE == Constant.ERROR_DOUBLE) {
 			isSucessApply = false;
-			return;
+			return false;
 		}
 		double nThick = nThickField.getDoubleNoNull("请输入接管厚度");
 		if (nThick == Constant.ERROR_DOUBLE) {
 			isSucessApply = false;
-			return;
+			return false;
 		}
 		double piC1 = pipeC1.getDoubleNoNull("请输入接管腐蚀裕量");
 		if (piC1 == Constant.ERROR_DOUBLE) {
 			isSucessApply = false;
-			return;
+			return false;
 		}
 		pipe = new StraightPipe(pID, nThick, pMeterial, pStr, pE, piC1, designConJPanel.getDsgcon());
 		openging.setPipe(pipe);
+		return true;
 	}
 
 	public void showOutput() {
@@ -270,34 +276,14 @@ public class PipePanel extends JPanel {
 		result.showResult();
 	}
 
-	public Pipe getPipe() {
-		return pipe;
-	}
-
 	public boolean isSucessApply() {
 		return isSucessApply;
 	}
 
-	public void setSucessApply(boolean isSucessApply) {
-		this.isSucessApply = isSucessApply;
-	}
-
-	/**
-	 * 设置反序列化
-	 * 
-	 * @param pipe
-	 */
-	public void setPipe(Pipe pipe) {
-		// TODO Auto-generated method stub
-		this.pipe = pipe;
-		pipeDia.setText(pipe.getInterDia());
-		meterialButton.setMeterial(pipe.getMeterial());
-		pipeStress.setText(pipe.getAllowStress());
-		pipeEff.setText(pipe.getEff());
-		nThickField.setText(pipe.getNThick());
-		pipeC1.setText(pipe.getC1());
-		pipeC2.setText(pipe.getC2()+"");
-		showOutput();
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO 自动生成的方法存根
+		apply();
 	}
 
 }
