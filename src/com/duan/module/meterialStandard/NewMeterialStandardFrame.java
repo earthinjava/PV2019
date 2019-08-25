@@ -24,7 +24,13 @@ import com.duan.utils.DateUtils;
 import com.duan.utils.JOptionPaneUtils;
 import com.duan.utils.PanelUtils;
 
-public class NewMeterialStandardFrame extends CanStartFrame {
+/**
+ * 新建材料标准
+ * 
+ * @author Administrator
+ *
+ */
+public class NewMeterialStandardFrame extends CanStartFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -36,7 +42,7 @@ public class NewMeterialStandardFrame extends CanStartFrame {
 	private JComboBox<String> meterialComponentBoxBox;
 
 	public NewMeterialStandardFrame() {
-		super( 260, 250);
+		super(260, 250);
 
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.menu);
@@ -115,37 +121,39 @@ public class NewMeterialStandardFrame extends CanStartFrame {
 			yearBox.addItem(thisYear + "");
 		}
 
-		createButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {				
-				int type = typeBox.getSelectedIndex();
-				String num =numField.getText();				
-				if (num == null || num.trim() == "") {
-					JOptionPaneUtils.warningMess(contentPane, "请输入标准号");
-					numField.requestFocus();
-					return;
-				}
-				String year = yearBox.getSelectedItem() + "";
-				String month = monthBox.getSelectedItem() + "";
-				String name = nameField.getText();
-				if (name == null || name.trim().equals("")) {
-					JOptionPaneUtils.warningMess(contentPane, "请输入标准名称");
-					nameField.requestFocus();
-					return;
-				}
-				MeterialStandard meterialStandard = new GeneralMeterialStandard();
-				MeterialStandardProperty standardProperty = new MeterialStandardProperty();
-				standardProperty.setMeterialComponent(meterialComponentBoxBox.getSelectedItem().toString());
-				meterialStandard.setImplementationDate(DateUtils.parseStringToDate(year + "-" + month));
-				meterialStandard.setMeterialType(type);
-				meterialStandard.setName(name);
-				meterialStandard.setStandardNum(num);
-				meterialStandard.setProperty(standardProperty);			
-				if ( new MeterialStandardDAO(meterialStandard).creat(contentPane)) {
-					dispose();
-				}
-			}
-		});
+		createButton.addActionListener(this);
 		PanelUtils.setAllComFont(contentPane);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO 自动生成的方法存根
+		int type = typeBox.getSelectedIndex();
+		String num = numField.getText();
+		if (num == null || num.trim() == "") {
+			JOptionPaneUtils.warningMess(contentPane, "请输入标准号");
+			numField.requestFocus();
+			return;
+		}
+		String year = yearBox.getSelectedItem() + "";
+		String month = monthBox.getSelectedItem() + "";
+		String name = nameField.getText();
+		if (name == null || name.trim().equals("")) {
+			JOptionPaneUtils.warningMess(contentPane, "请输入标准名称");
+			nameField.requestFocus();
+			return;
+		}
+		MeterialStandard meterialStandard = new GeneralMeterialStandard();
+		MeterialStandardProperty standardProperty = new MeterialStandardProperty();
+		standardProperty.setMeterialComponent(meterialComponentBoxBox.getSelectedItem().toString());
+		meterialStandard.setImplementationDate(DateUtils.parseStringToDate(year + "-" + month));
+		meterialStandard.setMeterialType(type);
+		meterialStandard.setName(name);
+		meterialStandard.setStandardNum(num);
+		meterialStandard.setProperty(standardProperty);
+		if (new MeterialStandardDAO(meterialStandard).creat(contentPane)) {
+			dispose();
+		}
+
 	}
 }

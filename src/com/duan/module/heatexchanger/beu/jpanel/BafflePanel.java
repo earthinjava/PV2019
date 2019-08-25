@@ -1,4 +1,4 @@
-package com.duan.module.heatexchanger.beu;
+package com.duan.module.heatexchanger.beu.jpanel;
 
 import javax.swing.JPanel;
 

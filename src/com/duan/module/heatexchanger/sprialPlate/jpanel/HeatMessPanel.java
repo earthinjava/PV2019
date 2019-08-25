@@ -12,12 +12,7 @@ import com.duan.module.heatexchanger.sprialPlate.bean.designCondition.SPHEDesign
 import com.duan.utils.LabelAndFieldUtils;
 import com.duan.utils.PanelUtils;
 
-/**
- * �����ſ���ʾ���
- * 
- * @author Administrator
- *
- */
+
 public class HeatMessPanel extends JPanel {
 
 	/**

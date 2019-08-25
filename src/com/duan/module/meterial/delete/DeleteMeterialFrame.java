@@ -70,8 +70,7 @@ public class DeleteMeterialFrame extends CanStartFrame {
 		delButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				boolean isSucess = new MeterialDao(conformStandardMeterialsBox.getSelctedMeterial()).del(contentPane);
-				if (isSucess) {
+				if (new MeterialDao(conformStandardMeterialsBox.getSelctedMeterial()).del(contentPane)) {
 					dispose();
 				}
 			}

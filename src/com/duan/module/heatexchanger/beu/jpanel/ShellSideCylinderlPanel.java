@@ -1,4 +1,4 @@
-package com.duan.module.heatexchanger.beu;
+package com.duan.module.heatexchanger.beu.jpanel;
 
 import java.awt.Color;
 import java.awt.SystemColor;
@@ -24,7 +24,7 @@ import com.duan.utils.PanelUtils;
 import com.duan.vessel.shell.CylinderShell;
 import com.duan.vessel.shell.Shell;
 
-public class ShellSideCylinderlPanel extends JPanel {
+public class ShellSideCylinderlPanel extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	private PureNumField shellDia;
@@ -205,11 +205,7 @@ public class ShellSideCylinderlPanel extends JPanel {
 		JLabel mawpodLabel2 = new JLabel("Mpa");
 		mawpodLabel2.setBounds(148, 340, 26, 20);
 
-		applybutton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				apply();
-			}
-		});
+		applybutton.addActionListener(this);
 		PanelUtils.setAllComFont(contentPanel);
 
 	}
@@ -277,5 +273,11 @@ public class ShellSideCylinderlPanel extends JPanel {
 		LabelAndFieldUtils.showDoublePointTwo(od, shell.getOutDia());
 		LabelAndFieldUtils.showDoublePointTwo(mawp, shell.getMaxAllowWokrPressure());
 		result.showResult();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO 自动生成的方法存根
+		apply();
 	}
 }

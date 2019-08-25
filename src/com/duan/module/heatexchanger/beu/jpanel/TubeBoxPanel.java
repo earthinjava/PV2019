@@ -1,11 +1,7 @@
-package com.duan.module.heatexchanger.beu;
+package com.duan.module.heatexchanger.beu.jpanel;
 
 import javax.swing.JPanel;
-/**
- * π‹œ‰√Ê∞Â
- * @author Administrator
- *
- */
+
 public class TubeBoxPanel extends JPanel {
 
 	/**

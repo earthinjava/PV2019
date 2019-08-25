@@ -1,4 +1,4 @@
-package com.duan.module.heatexchanger.beu;
+package com.duan.module.heatexchanger.beu.jpanel;
 
 import java.awt.Color;
 import java.awt.Rectangle;
@@ -25,7 +25,7 @@ import com.duan.utils.JOptionPaneUtils;
 import com.duan.utils.LabelAndFieldUtils;
 import com.duan.utils.PanelUtils;
 
-public class HeatDesignContionPanel extends JPanel {
+public class HeatDesignContionPanel extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	private BEUHeatExchanger beuHeatExchanger;
@@ -52,6 +52,7 @@ public class HeatDesignContionPanel extends JPanel {
 	private JComboBox<String> hotLocationBox;
 	private JComboBox<String> coldLocationBox;
 	private BoxChangeImgPanel boxPanel;
+	private ShowImageCenterPanel preImagePanel;
 
 	public HeatDesignContionPanel(BEUHeatExchanger beuHeatExchanger) {
 
@@ -197,6 +198,7 @@ public class HeatDesignContionPanel extends JPanel {
 		hotLocationBox = new JComboBox<String>();
 		hotLocationBox.setModel(new DefaultComboBoxModel<String>(new String[] { "\u7BA1\u7A0B", "\u58F3\u7A0B" }));
 		hotLocationBox.setBounds(81, 250, 66, 20);
+		hotLocationBox.addActionListener(this);		
 		designConPanel.add(hotLocationBox);
 
 		coldLocationBox = new JComboBox<String>();
@@ -213,20 +215,21 @@ public class HeatDesignContionPanel extends JPanel {
 		streamBox.setBounds(81, 220, 141, 20);
 		designConPanel.add(streamBox);
 
-		hotLocationBox.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (hotLocationBox.getSelectedIndex() == 0) {
-					coldLocationBox.setSelectedIndex(0);
-				} else {
-					coldLocationBox.setSelectedIndex(1);
-				}
-			}
-		});		
-		ShowImageCenterPanel preImagePanel=new ShowImageCenterPanel(675, 260, 5, 290, preImagePath);		
+		preImagePanel=new ShowImageCenterPanel(675, 260, 5, 290, preImagePath);		
 		contentPane.add(preImagePanel);
 		PanelUtils.setAllComFont(contentPane);
 		PanelUtils.setAllComFont(designConPanel);		
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO 自动生成的方法存根
+		if (hotLocationBox.getSelectedIndex() == 0) {
+			coldLocationBox.setSelectedIndex(0);
+		} else {
+			coldLocationBox.setSelectedIndex(1);
+		}
+	
 	}
 
 	public void apply() {
@@ -362,5 +365,5 @@ public class HeatDesignContionPanel extends JPanel {
 		} else {
 			return coldDesignTempField;
 		}
-	}
+	}	
 }

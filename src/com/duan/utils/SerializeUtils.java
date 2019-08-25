@@ -20,16 +20,23 @@ public class SerializeUtils {
 	 * @param lastName           要保存的文件的后缀名
 	 * @return
 	 */
-	public static boolean seriallized(Serializable serializable,Component messComp, String folderName, String lastName) {
+	public static boolean seriallized(Serializable serializable, Component messComp, String folderName,
+			String lastName) {
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
-		try {			
+		try {
 			// 弹出输入文件名对话框
 			String firstName = JOptionPaneUtils.inPutFileNameMess(messComp);
-			if (firstName == null||firstName.trim().equals("")) {
-				JOptionPaneUtils.warningMess(messComp, "所输入的文件名为空");
+			if (firstName == null) {
 				return false;
-			}			
+			}
+			while (firstName.trim().equals("")) {
+				JOptionPaneUtils.warningMess(messComp, "所输入的文件名为空");
+				firstName = JOptionPaneUtils.inPutFileNameMess(messComp);
+				if (firstName == null) {
+					return false;
+				}
+			}
 			File floder = new File(Constant.SERIALIZEFOLDER_PATH + "/" + folderName + "/");
 			File file = new File(Constant.SERIALIZEFOLDER_PATH + "/" + folderName + "/" + firstName + "." + lastName);
 			// 若文件的目录不存在则创建
@@ -39,12 +46,25 @@ public class SerializeUtils {
 			// 判断文件是否存在
 			if (!file.exists()) {
 				boolean isScucess = file.createNewFile();// 不存在先创建
-				if (!isScucess) {
-					JOptionPaneUtils.warningMess(messComp, firstName + "含有非法字符");
-					return false;
-				}				
+				while (!isScucess) {
+					JOptionPaneUtils.warningMess(messComp, firstName + "所输入文件名含有非法字符，请重新输入");
+					firstName = JOptionPaneUtils.inPutFileNameMess(messComp);
+					if (firstName == null) {
+						return false;
+					}
+					while (firstName.trim().equals("")) {
+						JOptionPaneUtils.warningMess(messComp, "所输入的文件名为空");
+						firstName = JOptionPaneUtils.inPutFileNameMess(messComp);
+						if (firstName == null) {
+							return false;
+						}
+					}
+					file = new File(
+							Constant.SERIALIZEFOLDER_PATH + "/" + folderName + "/" + firstName + "." + lastName);
+					isScucess = file.createNewFile();
+				}
 			} else {
-				boolean isCover = JOptionPaneUtils.selectMess(messComp, "文件已存在，点击是将覆盖");
+				boolean isCover = JOptionPaneUtils.selectMess(messComp, "文件已存在，点击是覆盖文件，点击否重新命名");
 				if (!isCover) {
 					return false;
 				}

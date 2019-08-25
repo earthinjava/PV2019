@@ -1,4 +1,4 @@
-package com.duan.module.heatexchanger.beu;
+package com.duan.module.heatexchanger.beu.jpanel;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -30,7 +31,7 @@ import com.duan.utils.JOptionPaneUtils;
 import com.duan.utils.LabelAndFieldUtils;
 import com.duan.utils.PanelUtils;
 
-public class TubePlateJPanel extends JPanel {
+public class TubePlateJPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -507,12 +508,7 @@ public class TubePlateJPanel extends JPanel {
 		label_39.setBounds(176, 293, 49, 21);
 		panel_1.add(label_39);
 
-		applyButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				apply();
-			}
-		});
+		applyButton.addActionListener(this);
 
 		meterialButton = new MeterialButton(heatDesignConJPanel.getShellDesignTempField(),
 				heatDesignConJPanel.getTubeDesignTempField());
@@ -528,36 +524,47 @@ public class TubePlateJPanel extends JPanel {
 		allowStressField.setBounds(100, 96, 66, 21);
 		InputPanel.add(allowStressField);
 
-		connectTypeBox.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (connectTypeBox.getSelectedItem().toString().equals(Constant.TUBECONTACTPALTE_TYPE[0])) {
-					strenthWeldedLengthField.setText("0");
-					strenthWeldedLengthField.setEnabled(false);
-					strenthExpansionLengthField.setEnabled(true);
-				} else if (connectTypeBox.getSelectedItem().toString().equals(Constant.TUBECONTACTPALTE_TYPE[1])) {
-					strenthExpansionLengthField.setText("0");
-					strenthExpansionLengthField.setEnabled(false);
-					strenthWeldedLengthField.setEnabled(true);
-				} else if (connectTypeBox.getSelectedItem().toString().equals(Constant.TUBECONTACTPALTE_TYPE[2])) {
-					strenthWeldedLengthField.setText("0");
-					strenthWeldedLengthField.setEnabled(false);
-					strenthExpansionLengthField.setEnabled(true);
-				} else if (connectTypeBox.getSelectedItem().toString().equals(Constant.TUBECONTACTPALTE_TYPE[3])) {
-					strenthExpansionLengthField.setText("0");
-					strenthExpansionLengthField.setEnabled(false);
-					strenthWeldedLengthField.setEnabled(true);
-				} else if (connectTypeBox.getSelectedItem().toString().equals(Constant.TUBECONTACTPALTE_TYPE[4])) {
-					strenthExpansionLengthField.setText("0");
-					strenthExpansionLengthField.setEnabled(false);
-					strenthWeldedLengthField.setText("0");
-					strenthWeldedLengthField.setEnabled(false);
-				}
-			}
-		});
+		connectTypeBox.addActionListener(new BoxActionListener());
 		PanelUtils.setAllComFont(InputPanel);
 		PanelUtils.setAllComFont(panel_1);
 		PanelUtils.setAllComFont(panel);
+	}
+
+	class BoxActionListener implements ActionListener, Serializable {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -2581323698204913765L;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO 自动生成的方法存根
+			if (connectTypeBox.getSelectedItem().toString().equals(Constant.TUBECONTACTPALTE_TYPE[0])) {
+				strenthWeldedLengthField.setText("0");
+				strenthWeldedLengthField.setEnabled(false);
+				strenthExpansionLengthField.setEnabled(true);
+			} else if (connectTypeBox.getSelectedItem().toString().equals(Constant.TUBECONTACTPALTE_TYPE[1])) {
+				strenthExpansionLengthField.setText("0");
+				strenthExpansionLengthField.setEnabled(false);
+				strenthWeldedLengthField.setEnabled(true);
+			} else if (connectTypeBox.getSelectedItem().toString().equals(Constant.TUBECONTACTPALTE_TYPE[2])) {
+				strenthWeldedLengthField.setText("0");
+				strenthWeldedLengthField.setEnabled(false);
+				strenthExpansionLengthField.setEnabled(true);
+			} else if (connectTypeBox.getSelectedItem().toString().equals(Constant.TUBECONTACTPALTE_TYPE[3])) {
+				strenthExpansionLengthField.setText("0");
+				strenthExpansionLengthField.setEnabled(false);
+				strenthWeldedLengthField.setEnabled(true);
+			} else if (connectTypeBox.getSelectedItem().toString().equals(Constant.TUBECONTACTPALTE_TYPE[4])) {
+				strenthExpansionLengthField.setText("0");
+				strenthExpansionLengthField.setEnabled(false);
+				strenthWeldedLengthField.setText("0");
+				strenthWeldedLengthField.setEnabled(false);
+			}
+
+		}
+
 	}
 
 	public void autoFill() {
@@ -685,5 +692,11 @@ public class TubePlateJPanel extends JPanel {
 		}
 
 		showTubePlatePanel.repaint();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO 自动生成的方法存根
+		apply();
 	}
 }

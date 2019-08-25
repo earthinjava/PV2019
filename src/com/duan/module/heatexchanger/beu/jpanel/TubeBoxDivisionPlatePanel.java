@@ -1,4 +1,4 @@
-package com.duan.module.heatexchanger.beu;
+package com.duan.module.heatexchanger.beu.jpanel;
 
 import java.awt.Color;
 import java.awt.SystemColor;
@@ -24,7 +24,7 @@ import com.duan.utils.JOptionPaneUtils;
 import com.duan.utils.LabelAndFieldUtils;
 import com.duan.utils.PanelUtils;
 
-public class TubeBoxDivisionPlatePanel extends JPanel {
+public class TubeBoxDivisionPlatePanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private PureNumField c2Field;
@@ -36,6 +36,11 @@ public class TubeBoxDivisionPlatePanel extends JPanel {
 	private PureNumField diffPressField;
 	private PureNumField stressField;
 	private MeterialButton meterialButton;
+	private BEUHeatExchanger beuHeatExchanger;
+	private JComboBox<String> typeBox;
+	private ResultLabel resultLabel;
+	private JLabel minThickLabel;
+	private JLabel calThickLabel;
 
 	public TubeBoxDivisionPlatePanel(BEUHeatExchanger beuHeatExchanger, HeatDesignContionPanel heatDesignContionPanel) {
 
@@ -44,7 +49,8 @@ public class TubeBoxDivisionPlatePanel extends JPanel {
 		setBorder(null);
 		setSize(779, 631);
 		setLayout(null);
-
+		this.beuHeatExchanger=beuHeatExchanger;
+		
 		JPanel panel = new JPanel();
 		panel.setBackground(SystemColor.menu);
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -105,7 +111,7 @@ public class TubeBoxDivisionPlatePanel extends JPanel {
 		button.setBounds(10, 400, 190, 23);
 		panel.add(button);
 
-		JLabel calThickLabel = new JLabel("");
+		calThickLabel = new JLabel("");
 		calThickLabel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		calThickLabel.setBounds(109, 340, 66, 20);
 		panel.add(calThickLabel);
@@ -135,7 +141,8 @@ public class TubeBoxDivisionPlatePanel extends JPanel {
 		BoxChangeImgPanel boxChangeImgPanel = new BoxChangeImgPanel(Constant.BEUDIVIDEPLATE_TYPE,
 				Constant.BEUDIVIDEPLATE_TYPE_IMGPATH, 220, 5, 453, 430, false);
 		add(boxChangeImgPanel);
-		JComboBox<String> typeBox = boxChangeImgPanel.getBox();
+		
+		typeBox = boxChangeImgPanel.getBox();
 		typeBox.setBounds(109, 10, 84, 20);
 		panel.add(typeBox);
 
@@ -190,20 +197,20 @@ public class TubeBoxDivisionPlatePanel extends JPanel {
 		meterialButton = new MeterialButton();
 		meterialButton.setLocation(109, 160);
 		panel.add(meterialButton);
-		
+
 		meterialButton.setDesignTempField(heatDesignContionPanel.getTubeDesignTempField());
 
 		nThickField = meterialButton.getnThickField();
 		nThickField.setBounds(109, 70, 66, 20);
 		panel.add(nThickField);
 
-		ResultLabel resultLabel = new ResultLabel();
+		resultLabel = new ResultLabel();
 		resultLabel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		resultLabel.setBounds(109, 370, 66, 20);
 		resultLabel.setActualField(nThickField);
 		panel.add(resultLabel);
 
-		JLabel minThickLabel = resultLabel.getRequiredLabel();
+		minThickLabel = resultLabel.getRequiredLabel();
 		minThickLabel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		minThickLabel.setBounds(109, 310, 66, 20);
 		panel.add(minThickLabel);
@@ -212,60 +219,61 @@ public class TubeBoxDivisionPlatePanel extends JPanel {
 		stressField.setBounds(109, 280, 66, 20);
 		panel.add(stressField);
 
-		button.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				beuHeatExchanger.setTubeBoxDivisionPlate(null);
-				double id = idField.getDoubleNoNull("请输入内径");
-				if (id == Constant.ERROR_DOUBLE) {
-					return;
-				}
-				double nThick = nThickField.getDoubleNoNull("请输入名义厚度");
-				if (nThick == Constant.ERROR_DOUBLE) {
-					return;
-				}
-				double sizeA = sizeAField.getDoubleNoNull("请输入尺寸a");
-				if (sizeA == Constant.ERROR_DOUBLE) {
-					return;
-				}
-				double sizeB = sizeBField.getDoubleNoNull("请输入尺寸b");
-				if (sizeB == Constant.ERROR_DOUBLE) {
-					return;
-				}
-				double pressDifference = diffPressField.getDoubleNoNull("请输入设计压差");
-				if (pressDifference == Constant.ERROR_DOUBLE) {
-					return;
-				}
-				double c1 = c1Field.getDoubleNoNull("请输入腐蚀裕量");
-				if (c1 == Constant.ERROR_DOUBLE) {
-					return;
-				}
-				double c2 = c2Field.getDoubleNoNull("请输入厚度负偏差");
-				if (c2 == Constant.ERROR_DOUBLE) {
-					return;
-				}
-				double stress = stressField.getDoubleNoNull("请输入许用应力");
-				if (stress == Constant.ERROR_DOUBLE) {
-					return;
-				}
-				Meterial m = meterialButton.getMeterial();
-				if (m == null) {
-					JOptionPaneUtils.warningMess(button, "请选择材料");
-					return;
-				}
-				int type = typeBox.getSelectedIndex();
-				TubeBoxDivisionPlate tubeBoxDivisionPlate = new TubeBoxDivisionPlate(type, id, nThick, sizeA, sizeB, m,
-						pressDifference, c1, c2, stress);
-				beuHeatExchanger.setTubeBoxDivisionPlate(tubeBoxDivisionPlate);
-				LabelAndFieldUtils.showDoublePointTwo(minThickLabel, tubeBoxDivisionPlate.getMinReThick());
-				LabelAndFieldUtils.showDoublePointTwo(calThickLabel, tubeBoxDivisionPlate.getCalthick());
-				if (tubeBoxDivisionPlate.getCalthick() == 0) {
-					JOptionPaneUtils.warningMess(stressField, "计算厚度为0");
-				}
-				resultLabel.showResult();
-			}
-		});
+		button.addActionListener(this);
 		PanelUtils.setAllComFont(panel);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		beuHeatExchanger.setTubeBoxDivisionPlate(null);
+		double id = idField.getDoubleNoNull("请输入内径");
+		if (id == Constant.ERROR_DOUBLE) {
+			return;
+		}
+		double nThick = nThickField.getDoubleNoNull("请输入名义厚度");
+		if (nThick == Constant.ERROR_DOUBLE) {
+			return;
+		}
+		double sizeA = sizeAField.getDoubleNoNull("请输入尺寸a");
+		if (sizeA == Constant.ERROR_DOUBLE) {
+			return;
+		}
+		double sizeB = sizeBField.getDoubleNoNull("请输入尺寸b");
+		if (sizeB == Constant.ERROR_DOUBLE) {
+			return;
+		}
+		double pressDifference = diffPressField.getDoubleNoNull("请输入设计压差");
+		if (pressDifference == Constant.ERROR_DOUBLE) {
+			return;
+		}
+		double c1 = c1Field.getDoubleNoNull("请输入腐蚀裕量");
+		if (c1 == Constant.ERROR_DOUBLE) {
+			return;
+		}
+		double c2 = c2Field.getDoubleNoNull("请输入厚度负偏差");
+		if (c2 == Constant.ERROR_DOUBLE) {
+			return;
+		}
+		double stress = stressField.getDoubleNoNull("请输入许用应力");
+		if (stress == Constant.ERROR_DOUBLE) {
+			return;
+		}
+		Meterial m = meterialButton.getMeterial();
+		if (m == null) {
+			JOptionPaneUtils.warningMess(meterialButton, "请选择材料");
+			return;
+		}
+		int type = typeBox.getSelectedIndex();
+		TubeBoxDivisionPlate tubeBoxDivisionPlate = new TubeBoxDivisionPlate(type, id, nThick, sizeA, sizeB, m,
+				pressDifference, c1, c2, stress);
+		beuHeatExchanger.setTubeBoxDivisionPlate(tubeBoxDivisionPlate);
+		LabelAndFieldUtils.showDoublePointTwo(minThickLabel, tubeBoxDivisionPlate.getMinReThick());
+		LabelAndFieldUtils.showDoublePointTwo(calThickLabel, tubeBoxDivisionPlate.getCalthick());
+		if (tubeBoxDivisionPlate.getCalthick() == 0) {
+			JOptionPaneUtils.warningMess(stressField, "计算厚度为0");
+		}
+		resultLabel.showResult();
+
 	}
 }

@@ -1,4 +1,4 @@
-package com.duan.module.heatexchanger.beu;
+package com.duan.module.heatexchanger.beu.jpanel;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -33,7 +33,7 @@ import com.duan.utils.FontUtils;
 import com.duan.utils.LabelAndFieldUtils;
 import com.duan.utils.PanelUtils;
 
-public class TubeBundleJPanel extends JPanel {
+public class TubeBundleJPanel extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	private BEUHeatExchanger beuHeatExchanger;
@@ -149,12 +149,7 @@ public class TubeBundleJPanel extends JPanel {
 		label_18.setBounds(176, 163, 26, 20);
 		InputPanel.add(label_18);
 
-		applyButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				apply();
-			}
-		});
+		applyButton.addActionListener(this);
 
 		tubeArrayPanel = new JPanel() {
 			private static final long serialVersionUID = -1246147653990515510L;
@@ -363,23 +358,23 @@ public class TubeBundleJPanel extends JPanel {
 	}
 
 	/**
-	 * 按下减少与增加按钮后，刷新组件和画布内容
+	 * 按下减少与增加按钮后，刷新第几行的组件和画布内容
 	 * 
-	 * @param rowNum
+	 * @param rowNum 第几行
 	 */
 	private void refresh(int rowNum) {
 		HeatTubeLine ht = tubeBundle.getHeatTubeLines().get(rowNum);
 		int num = ht.getIsUsedNum();
-		double lineLength = ht.getLineLength();
-		double lineWeight = ht.getLineWeight();
-		int totalUsedNum = tubeBundle.getUsedTubesNum();
+		int totalUsedNum = tubeBundle.getUsedTubesNum();		
+		double lineLength = DoubleUtils.doubleSavePointTwo(ht.getLineLength());
+		double lineWeight =DoubleUtils.doubleSavePointTwo( ht.getLineWeight());
 		table.setValueAt(num + "", rowNum, 5);
 		table.setValueAt(lineLength + "", rowNum, 6);
 		table.setValueAt(lineWeight + "", rowNum, 7);
-		usedNumLabel.setText(totalUsedNum + "");
-		totalWeightLabel.setText(tubeBundle.getWeight() + "");
-		areaULabel.setText(tubeBundle.getHeatAreaU() / 1000000 + "");
-		areaLabel.setText(tubeBundle.getHeatArea() / 1000000 + "");
+		usedNumLabel.setText(totalUsedNum + "");		
+		LabelAndFieldUtils.showDoublePointTwo(totalWeightLabel, tubeBundle.getWeight());
+		LabelAndFieldUtils.showDoublePointTwo(areaULabel, tubeBundle.getHeatAreaU() / 1000000);
+		LabelAndFieldUtils.showDoublePointTwo(areaLabel, tubeBundle.getHeatArea() / 1000000);			
 		tubeArrayPanel.repaint();
 	}
 
@@ -439,5 +434,11 @@ public class TubeBundleJPanel extends JPanel {
 		
 		FontUtils.setDefaultFont(table.getTableHeader());
 		FontUtils.setDefaultFont(table);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO 自动生成的方法存根
+		apply();
 	}
 }

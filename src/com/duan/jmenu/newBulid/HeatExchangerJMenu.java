@@ -4,7 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import com.duan.jmenu.NewTabPanelModuleMenu;
-import com.duan.module.heatexchanger.beu.BEUExchangerModulePanel;
+import com.duan.module.heatexchanger.beu.jpanel.BEUExchangerModulePanel;
 import com.duan.module.heatexchanger.sprialPlate.jpanel.SprialPlateHeatExchangerJPanel;
 import com.duan.utils.FontUtils;
 

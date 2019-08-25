@@ -1,4 +1,4 @@
-package com.duan.module.heatexchanger.beu;
+package com.duan.module.heatexchanger.beu.jpanel;
 
 import java.awt.Color;
 import java.awt.Rectangle;
@@ -21,7 +21,7 @@ import com.duan.utils.Constant;
 import com.duan.utils.LabelAndFieldUtils;
 import com.duan.utils.PanelUtils;
 
-public class TubePlateGasketPanel extends JPanel {
+public class TubePlateGasketPanel extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -158,12 +158,7 @@ public class TubePlateGasketPanel extends JPanel {
 		label_10.setBounds(171, 73, 29, 15);
 		panel.add(label_10);
 
-		applyButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				apply();
-			}
-		});
+		applyButton.addActionListener(this);
 
 		PanelUtils.setAllComFont(InputPanel);
 		PanelUtils.setAllComFont(panel);
@@ -201,5 +196,11 @@ public class TubePlateGasketPanel extends JPanel {
 		LabelAndFieldUtils.showDoublePointTwo(b0Label, b0);
 		LabelAndFieldUtils.showDoublePointTwo(bLabel, b);
 		LabelAndFieldUtils.showDoublePointTwo(fdLabel, fd);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO 自动生成的方法存根
+		apply();
 	}
 }

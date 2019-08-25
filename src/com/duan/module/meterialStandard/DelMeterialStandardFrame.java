@@ -19,7 +19,13 @@ import com.duan.component.meterial.MeterialStandardBox;
 import com.duan.meterialstandard.MeterialStandardDAO;
 import com.duan.utils.PanelUtils;
 
-public class DelMeterialStandardFrame extends CanStartFrame {
+/**
+ * 删除材料标准
+ * 
+ * @author Administrator
+ *
+ */
+public class DelMeterialStandardFrame extends CanStartFrame implements ActionListener {
 
 	private static final long serialVersionUID = 653097626768066387L;
 	private JPanel contentPane;
@@ -31,7 +37,7 @@ public class DelMeterialStandardFrame extends CanStartFrame {
 	private JLabel meComLabel;
 
 	public DelMeterialStandardFrame() {
-		super( 260, 395);
+		super(260, 395);
 
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.menu);
@@ -58,15 +64,15 @@ public class DelMeterialStandardFrame extends CanStartFrame {
 		JButton delButton = new JButton("\u5220\u9664\u6807\u51C6");
 		delButton.setBounds(10, 340, 224, 25);
 		contentPane.add(delButton);
-	
-		meterialBox = new MeterialTool(0);		
 
-		nameLabel =meterialBox.getNameLabel();
+		meterialBox = new MeterialTool(0);
+
+		nameLabel = meterialBox.getNameLabel();
 		nameLabel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		nameLabel.setBounds(63, 80, 171, 23);
 		contentPane.add(nameLabel);
-		
-		meComLabel =meterialBox.getMeterialComponentLabel();
+
+		meComLabel = meterialBox.getMeterialComponentLabel();
 		meComLabel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		meComLabel.setBounds(63, 115, 171, 23);
 		contentPane.add(meComLabel);
@@ -85,17 +91,20 @@ public class DelMeterialStandardFrame extends CanStartFrame {
 		scrollPane.setLocation(10, 150);
 		contentPane.add(scrollPane);
 
-		delButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if (new MeterialStandardDAO(meterialStandardBox.getSelectedStand()).del(contentPane)) {
-					dispose();
-				}
-			}
-		});
-		
+		delButton.addActionListener(this);
+
 		PanelUtils.setAllComFont(contentPane);
+	}
+
+	/**
+	 * 删除材料操作
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO 自动生成的方法存根
+		if (new MeterialStandardDAO(meterialStandardBox.getSelectedStand()).del(contentPane)) {
+			dispose();
+		}
 	}
 
 }

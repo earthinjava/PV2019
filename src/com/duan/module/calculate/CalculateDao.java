@@ -11,7 +11,7 @@ import javax.swing.table.TableColumnModel;
 import com.duan.component.TabbedHeadPanel;
 import com.duan.component.tablebutton.MyJTable;
 import com.duan.component.tablebutton.MyTableRenderAndEditor;
-import com.duan.module.heatexchanger.beu.BEUExchangerModulePanel;
+import com.duan.module.heatexchanger.beu.jpanel.BEUExchangerModulePanel;
 import com.duan.module.heatexchanger.sprialPlate.jpanel.SprialPlateHeatExchangerJPanel;
 import com.duan.module.opening.OpengingMedulePanel;
 import com.duan.module.weightAndVolume.HeadAndShellShowPanel;

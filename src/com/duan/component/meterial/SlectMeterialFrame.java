@@ -110,12 +110,12 @@ public class SlectMeterialFrame extends CanStartFrame {
 		this(meterialButton.getFirstStandardType());
 		remove(button);
 
-		JButton confirmbutton = new JButton("\u786E\u8BA4");
+		JButton confirmbutton = new JButton("确定");
 		confirmbutton.setBounds(10, 115, 100, 25);
 		contentPane.add(confirmbutton);
 		FontUtils.setDefaultFont(confirmbutton);
 
-		JButton checkbutton = new JButton("\u67E5\u770B");
+		JButton checkbutton = new JButton("查询");
 		checkbutton.setBounds(130, 115, 100, 25);
 		contentPane.add(checkbutton);
 		FontUtils.setDefaultFont(checkbutton);
@@ -151,6 +151,7 @@ public class SlectMeterialFrame extends CanStartFrame {
 				dispose();
 			}
 		});
+		
 		checkbutton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

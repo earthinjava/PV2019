@@ -1,4 +1,4 @@
-package com.duan.module.heatexchanger.beu;
+package com.duan.module.heatexchanger.beu.jpanel;
 
 import java.awt.Color;
 import java.awt.SystemColor;
@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serializable;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -28,7 +29,7 @@ import com.duan.utils.LabelAndFieldUtils;
 import com.duan.utils.PanelUtils;
 import com.duan.vessel.designCondition.DesignCondition;
 
-public class UHeatTubePanel extends JPanel {
+public class UHeatTubePanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private PureNumField pipeStress;
@@ -45,13 +46,7 @@ public class UHeatTubePanel extends JPanel {
 	private MeterialButton meterialButton;
 	private ResultLabel isSafeLable;
 
-	/**
-	 * Create the panel.
-	 * 
-	 * @param heatDesignConJPanel
-	 */
 	public UHeatTubePanel(BEUHeatExchanger beuHeatExchanger, HeatDesignContionPanel heatDesignContionPanel) {
-
 		this.beuHeatExchanger = beuHeatExchanger;
 
 		setBackground(Color.WHITE);
@@ -184,7 +179,7 @@ public class UHeatTubePanel extends JPanel {
 		label.setBounds(97, 190, 25, 20);
 		contentPanel.add(label);
 
-		JPanel panel = new ShowImageCenterPanel(560, 180, "src/img/HeatExchanger/tube.png",false);
+		JPanel panel = new ShowImageCenterPanel(560, 180, "src/img/HeatExchanger/tube.png", false);
 		panel.setBounds(220, 5, 560, 180);
 		add(panel);
 
@@ -195,7 +190,7 @@ public class UHeatTubePanel extends JPanel {
 				heatDesignContionPanel.getTubeDesignTempField());
 		meterialButton.setFirstStandardType(1);
 		meterialButton.setLocation(97, 70);
-		contentPanel.add(meterialButton);		
+		contentPanel.add(meterialButton);
 
 		densityLable = meterialButton.getDensityLabel();
 		densityLable.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -204,50 +199,53 @@ public class UHeatTubePanel extends JPanel {
 
 		pipeStress = meterialButton.getStressField();
 		pipeStress.setBounds(97, 130, 66, 20);
-		contentPanel.add(pipeStress);		
-		
+		contentPanel.add(pipeStress);
+
 		nThickField = meterialButton.getnThickField();
 		nThickField.setBounds(97, 40, 66, 20);
 		contentPanel.add(nThickField);
-		
+
 		isSafeLable = new ResultLabel();
 		isSafeLable.setBounds(97, 310, 66, 20);
 		isSafeLable.setActualField(nThickField);
 		contentPanel.add(isSafeLable);
-		
-		calThickLable =isSafeLable.getRequiredLabel();
+
+		calThickLable = isSafeLable.getRequiredLabel();
 		calThickLable.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		calThickLable.setBounds(97, 220, 66, 20);
 		contentPanel.add(calThickLable);
 
+		applybutton.addActionListener(this);
 
-		applybutton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				apply();
-			}
-		});
-
-		meterialButton.addPropertyChangeListener(new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				// TODO Auto-generated method stub
-				if (meterialButton.getMeterial() == null) {
-					return;
-				}
-				boolean isNonferrous = meterialButton.getMeterial().getMeterialStandard().getProperty().isNonferrous();
-				if (isNonferrous) {
-					tubeClassBox.removeAllItems();
-					tubeClassBox.addItem("高精级");
-				} else {
-					tubeClassBox.removeAllItems();
-					tubeClassBox.addItem("II");
-					tubeClassBox.addItem("I");
-				}
-
-			}
-		});
+		meterialButton.addPropertyChangeListener(new ButtonPropertyChangeListener());
 		PanelUtils.setAllComFont(contentPanel);
+	}
+
+	class ButtonPropertyChangeListener implements PropertyChangeListener ,Serializable{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 5204613147987530872L;
+
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			// TODO Auto-generated method stub
+			if (meterialButton.getMeterial() == null) {
+				return;
+			}
+			boolean isNonferrous = meterialButton.getMeterial().getMeterialStandard().getProperty().isNonferrous();
+			System.out.println(isNonferrous);
+			if (isNonferrous) {
+				tubeClassBox.removeAllItems();
+				tubeClassBox.addItem("高精级");
+			} else {
+				tubeClassBox.removeAllItems();
+				tubeClassBox.addItem("II");
+				tubeClassBox.addItem("I");
+			}
+
+		}
+
 	}
 
 	public void apply() {
@@ -276,5 +274,11 @@ public class UHeatTubePanel extends JPanel {
 		LabelAndFieldUtils.showDoublePointTwo(densityLable, uheatTube.getMeterial().getDensity());
 		LabelAndFieldUtils.showDoublePointTwo(odOffsetLabel, uheatTube.getOdOffset());
 		isSafeLable.showResult();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO 自动生成的方法存根
+		apply();
 	}
 }

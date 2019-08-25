@@ -28,6 +28,7 @@ public class MeterialButton extends JButton {
 	private int firstStandardType;
 	private PureNumField shellDesignTempField;
 	private PureNumField tubeDesignTempField;
+	private StressActionPerformed stressActionPerformed;
 
 	/**
 	 * 材料选择按钮，可获得材料的基本属性和许用应力
@@ -45,7 +46,8 @@ public class MeterialButton extends JButton {
 		stressField.setColumns(10);
 		FontUtils.setDefaultFont(this);
 		setHorizontalAlignment(SwingConstants.CENTER);
-		addActionListener(new StressActionPerformed());
+		stressActionPerformed=new StressActionPerformed();
+		addActionListener(stressActionPerformed);
 	}
 
 	/**
@@ -54,9 +56,7 @@ public class MeterialButton extends JButton {
 	 *
 	 */
 	class StressActionPerformed implements ActionListener, Serializable {
-
 		private static final long serialVersionUID = 6290658729157340225L;
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO 自动生成的方法存根
@@ -76,6 +76,7 @@ public class MeterialButton extends JButton {
 		this();
 		this.shellDesignTempField = shellDesignTempField;
 		this.tubeDesignTempField = tubeDesignTempField;
+		removeActionListener(stressActionPerformed);
 		addActionListener(new HeatActionPerformed());
 	}
 
