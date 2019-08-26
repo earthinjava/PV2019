@@ -240,7 +240,7 @@ public class PipePanel extends JPanel implements ActionListener {
 			isSucessApply = false;
 			return false;
 		}
-		Meterial pMeterial = meterialButton.getMeterial();
+		Meterial pMeterial = meterialButton.getSelectedMeterial();
 		double pStr = pipeStress.getDoubleNoNull("请输入接管许用应力");
 		if (pStr == Constant.ERROR_DOUBLE) {
 			isSucessApply = false;

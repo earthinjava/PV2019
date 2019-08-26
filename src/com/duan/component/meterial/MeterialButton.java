@@ -19,22 +19,21 @@ import com.duan.utils.LabelAndFieldUtils;
 public class MeterialButton extends JButton {
 
 	private static final long serialVersionUID = 1L;
-	private PureNumField stressField;
-	private Meterial meterial;
-	private JLabel densityLabel;
-	private JLabel nThickLabel;
-	private PureNumField nThickField;
-	private PureNumField designTempField;
-	private int firstStandardType;
-	private PureNumField shellDesignTempField;
-	private PureNumField tubeDesignTempField;
-	private StressActionPerformed stressActionPerformed;
+	private PureNumField stressField;// 许用应力文字域
+	private Meterial selectedMeterial;// 所选择的材料
+	private JLabel densityLabel;// 密度标签
+	private JLabel nThickLabel;// 名义厚度标签
+	private PureNumField nThickField;// 名义厚度文字域
+	private PureNumField designTempField;// 设计温度文字域
+	private int firstStandardType;// 首选标准类型
+	private PureNumField shellDesignTempField;// 壳侧设计温度文字域
+	private PureNumField tubeDesignTempField;// 管侧设计温度文字域
+	private StressActionPerformed stressActionPerformed;// 许用应力执行的操作
 
 	/**
 	 * 材料选择按钮，可获得材料的基本属性和许用应力
 	 */
 	public MeterialButton() {
-		// TODO 自动生成的构造函数存根
 		setText("请选择");
 		setBackground(SystemColor.control);
 		setSize(86, 22);
@@ -46,21 +45,22 @@ public class MeterialButton extends JButton {
 		stressField.setColumns(10);
 		FontUtils.setDefaultFont(this);
 		setHorizontalAlignment(SwingConstants.CENTER);
-		stressActionPerformed=new StressActionPerformed();
+		stressActionPerformed = new StressActionPerformed();
 		addActionListener(stressActionPerformed);
 	}
 
 	/**
+	 * 许用应力执行的操作
 	 * 
 	 * @author Administrator
 	 *
 	 */
 	class StressActionPerformed implements ActionListener, Serializable {
 		private static final long serialVersionUID = 6290658729157340225L;
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO 自动生成的方法存根
-			new SlectMeterialFrame((MeterialButton) e.getSource());
+			new SelectMeterialFrame((MeterialButton) e.getSource());
 		}
 
 	}
@@ -91,19 +91,24 @@ public class MeterialButton extends JButton {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 			double t1 = shellDesignTempField.getDoubleCanNull();
 			double t2 = tubeDesignTempField.getDoubleCanNull();
-			SlectMeterialFrame meterialFrame;
-			if (t1 > t2) {
-				designTempField = shellDesignTempField;
-				meterialFrame = new SlectMeterialFrame((MeterialButton) e.getSource());
-				meterialFrame.start();
-			} else {
+			SelectMeterialFrame meterialFrame;
+			if (t1 == Constant.ERROR_DOUBLE && t2 != Constant.ERROR_DOUBLE) {
 				designTempField = tubeDesignTempField;
-				meterialFrame = new SlectMeterialFrame((MeterialButton) e.getSource());
-				meterialFrame.start();
+			} else if (t2 == Constant.ERROR_DOUBLE && t1 != Constant.ERROR_DOUBLE) {
+				designTempField = shellDesignTempField;
+			} else if (t2 == Constant.ERROR_DOUBLE && t1 == Constant.ERROR_DOUBLE) {
+				return;
+			} else {
+				if (t1 > t2) {
+					designTempField = shellDesignTempField;
+				} else {
+					designTempField = tubeDesignTempField;
+				}
 			}
+			meterialFrame = new SelectMeterialFrame((MeterialButton) e.getSource());
+			meterialFrame.start();
 			// 打开时锁定主窗体
 			FrameUtils.clockAndUnclockFatherFrame(shellDesignTempField, meterialFrame);
 		}
@@ -127,12 +132,17 @@ public class MeterialButton extends JButton {
 		return Constant.ERROR_DOUBLE;
 	}
 
-	public Meterial getMeterial() {
-		return meterial;
+	public Meterial getSelectedMeterial() {
+		return selectedMeterial;
 	}
 
-	public void setMeterial(Meterial meterial) {
-		this.meterial = meterial;
+	/**
+	 * 设置选择的材料
+	 * 
+	 * @param meterial
+	 */
+	public void setSelectedMeterial(Meterial meterial) {
+		this.selectedMeterial = meterial;
 		if (meterial == null) {
 			return;
 		}

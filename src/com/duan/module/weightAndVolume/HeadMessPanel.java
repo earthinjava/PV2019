@@ -208,7 +208,7 @@ public class HeadMessPanel extends JPanel {
 
 		try {
 			String type = headTypeComboBox.getSelectedItem() + "";
-			Meterial meterial = meterialButton.getMeterial();
+			Meterial meterial = meterialButton.getSelectedMeterial();
 			if (meterial == null) {
 				JOptionPaneUtils.warningMess(button, "请先选择材料");
 				return;

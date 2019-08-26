@@ -29,28 +29,28 @@ import com.duan.utils.PanelUtils;
  * @author Administrator
  *
  */
-public class SlectMeterialFrame extends CanStartFrame {
+public class SelectMeterialFrame extends CanStartFrame {
 
 	private static final long serialVersionUID = 653097626768066387L;
 	private JPanel contentPane;
 	private JComboBox<String> typeBox;
 	private MeterialStandardBox meterialStandardBox;
 	private ConformStandardMeterialsBox conformStandardMeterialsBox;
-	private JButton button;
+	private JButton button;// 查询材料按钮
 
 	/**
-	 * 一个材料选择界面，用来创建新材料，被反射创建
+	 * 一个材料选择界面，用来查询材料，被反射创建
 	 */
-	public SlectMeterialFrame() {
+	public SelectMeterialFrame() {
 		this(0);
 	}
 
 	/**
-	 * 一个材料选择界面，用来创建新材料
+	 * 一个材料选择界面，用来查询材料
 	 */
-	public SlectMeterialFrame(int fistStandType) {
+	public SelectMeterialFrame(int fistStandType) {
 		super(250, 180);
-		SlectMeterialFrame slectMeterialFrame = this;
+		SelectMeterialFrame slectMeterialFrame = this;
 
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.menu);
@@ -84,14 +84,13 @@ public class SlectMeterialFrame extends CanStartFrame {
 		meterialStandardBox.setBounds(85, 46, 139, 23);
 		contentPane.add(meterialStandardBox);
 
-		conformStandardMeterialsBox = meterialBox.getConformStandardMeterialsBox();		
+		conformStandardMeterialsBox = meterialBox.getConformStandardMeterialsBox();
 		conformStandardMeterialsBox.setBounds(85, 79, 139, 23);
 		contentPane.add(conformStandardMeterialsBox);
 
-		button.addActionListener(new ActionListener() {
+		button.addActionListener(new ActionListener() {// 创建一个新材料
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub				
 				new NewMeterialFrame(conformStandardMeterialsBox.getSelctedMeterial(), slectMeterialFrame).start();
 				setVisible(false);
 			}
@@ -106,7 +105,7 @@ public class SlectMeterialFrame extends CanStartFrame {
 	 * @param designTempField
 	 * @param nThickField
 	 */
-	public SlectMeterialFrame(MeterialButton meterialButton) {
+	public SelectMeterialFrame(MeterialButton meterialButton) {
 		this(meterialButton.getFirstStandardType());
 		remove(button);
 
@@ -132,7 +131,7 @@ public class SlectMeterialFrame extends CanStartFrame {
 					return;
 				}
 				// 设定所选材料
-				meterialButton.setMeterial(selctedMeterial);
+				meterialButton.setSelectedMeterial(selctedMeterial);
 				meterialButton.setToolTipText(selctedMeterial.getName() + " " + selMeterialStandard.getStandardNum()
 						+ " " + DateUtils.parseDateToStringMonth(selMeterialStandard.getImplementationDate()));
 				// 设定许用应力
@@ -151,7 +150,7 @@ public class SlectMeterialFrame extends CanStartFrame {
 				dispose();
 			}
 		});
-		
+
 		checkbutton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

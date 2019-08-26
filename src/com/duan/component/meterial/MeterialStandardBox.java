@@ -20,7 +20,7 @@ public class MeterialStandardBox extends JComboBox<String> {
 	private ArrayList<MeterialStandard> meterialStandards;
 	private JLabel nameLabel;
 	private JLabel typeLabel;
-	private JLabel meterialComponentLabel;	
+	private JLabel meterialComponentLabel;
 
 	/**
 	 * 
@@ -28,11 +28,9 @@ public class MeterialStandardBox extends JComboBox<String> {
 	 * @param typeLabel              标准类型，板，管，锻件
 	 * @param meterialComponentLabel 材料组分，碳钢，铜，钛等
 	 * @param showType               显示模式，0，显示板，1显示管件，2显示锻件
-	 * @param firstType              最先显示的模式 ：2，先显示管件，3先显示锻件，1及先显示板材   其他先显示板材
+	 * @param firstType              最先显示的模式 ：2，先显示管件，3先显示锻件，1及先显示板材 其他先显示板材
 	 */
-	public MeterialStandardBox(JLabel nameLabel, JLabel typeLabel, JLabel meterialComponentLabel, int showType
-			) {
-		// TODO Auto-generated constructor stub
+	public MeterialStandardBox(JLabel nameLabel, JLabel typeLabel, JLabel meterialComponentLabel, int showType) {
 		setModel(new DefaultComboBoxModel<String>());
 		setSize(150, 20);
 		FontUtils.setDefaultFont(this);
@@ -49,6 +47,11 @@ public class MeterialStandardBox extends JComboBox<String> {
 		});
 	}
 
+	/**
+	 * 获得当前所选择的材料标准
+	 * 
+	 * @return
+	 */
 	public MeterialStandard getSelectedStand() {
 		int i = getSelectedIndex();
 		if (meterialStandards != null && i >= 0) {
@@ -58,20 +61,10 @@ public class MeterialStandardBox extends JComboBox<String> {
 		return null;
 	}
 
-	public void setSelectedStand(MeterialStandard meterialStandard) {
-		this.selectedStand = meterialStandard;
-	}
-
-	public void changeType(int showType) {
-		removeAllItems();
-		addItems(showType);
-	}
-
 	/**
 	 * 显示标准名称，类型，材料组分
 	 */
-
-	public void showNameAndType() {
+	private void showNameAndType() {
 		if (nameLabel != null && getSelectedStand() != null) {
 			nameLabel.setText(getSelectedStand().getName());
 		} else if (nameLabel != null) {
@@ -93,11 +86,12 @@ public class MeterialStandardBox extends JComboBox<String> {
 	 * 
 	 * @param showType 1，返回板材 2返回管材，3返回锻件,大于3返回所有
 	 */
-	private void addItems(int showType) {
+	void addItems(int showType) {
+		removeAllItems();
 		meterialStandards = MeterialStandardDAO.getConformTypeMeterialStandards(this, showType);
-		if (meterialStandards != null) {
+		if (meterialStandards != null && meterialStandards.size() > 0) {
 			int l = 0;
-			for (MeterialStandard m : meterialStandards) {
+			for (MeterialStandard m : meterialStandards) {// 找到文字长度最长的标准
 				int size = m.getStandardNum().length();
 				if (size > l) {
 					l = size;
@@ -107,7 +101,7 @@ public class MeterialStandardBox extends JComboBox<String> {
 				int thisSize = m.getStandardNum().length();
 				String space = " ";
 				String s = " ";
-				for (int i = 0; i < l - thisSize; i++) {
+				for (int i = 0; i < l - thisSize; i++) {// 若果比最长的短，则添加空格
 					space += s;
 				}
 				addItem(m.getStandardNum() + space + DateUtils.parseDateToStringMonth(m.getImplementationDate()));

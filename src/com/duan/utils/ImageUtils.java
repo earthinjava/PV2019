@@ -15,6 +15,9 @@ public class ImageUtils {
 	 * @param g
 	 */
 	public static void drawImageCenter(String imgPath, JPanel jPanel, Graphics g) {
+		if(imgPath==null) {
+			return;
+		}
 		ImageIcon icon = new ImageIcon(imgPath);
 		Image img = icon.getImage();
 		double iconHeigt = icon.getIconHeight();

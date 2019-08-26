@@ -13,7 +13,7 @@ import com.duan.utils.FontUtils;
 public class ConformStandardMeterialsBox extends JComboBox<String> {
 
 	private static final long serialVersionUID = -8746963017253772432L;
-	private ArrayList<Meterial> conformStandardMeterials;	
+	private ArrayList<Meterial> conformStandardMeterials;
 
 	/**
 	 * 显示符合材料标准的材料下拉选项
@@ -33,19 +33,13 @@ public class ConformStandardMeterialsBox extends JComboBox<String> {
 	 * @param meterialStandard
 	 */
 	public void setMeterialStandard(MeterialStandard meterialStandard) {
-		removeAllItems();		
+		removeAllItems();
 		conformStandardMeterials = MeterialDao.getConformStandardMeterials(meterialStandard);
-		addItems();
-		System.out.println(1);
-	}
-
-	/**
-	 * 根据选择的材料标准添加选项
-	 */
-	private void addItems() {		
 		if (conformStandardMeterials != null) {
 			for (Meterial m : conformStandardMeterials) {
-				addItem(m.getName());
+				if (m != null && m.getName() != null) {
+					addItem(m.getName());
+				}
 			}
 		}
 	}
@@ -56,7 +50,7 @@ public class ConformStandardMeterialsBox extends JComboBox<String> {
 	 * @return
 	 */
 	public Meterial getSelctedMeterial() {
-		int i = getSelectedIndex();		
+		int i = getSelectedIndex();
 		if (conformStandardMeterials != null && i >= 0) {
 			return conformStandardMeterials.get(i);
 		}
@@ -68,7 +62,7 @@ public class ConformStandardMeterialsBox extends JComboBox<String> {
 	 * 
 	 * @return
 	 */
-	public ArrayList<Meterial> getConformStandardMeterials() {	
+	public ArrayList<Meterial> getConformStandardMeterials() {
 		return conformStandardMeterials;
 	}
 

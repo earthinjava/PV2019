@@ -17,7 +17,7 @@ import com.duan.utils.FrameUtils;
  * @author Administrator
  *
  */
-public class ShowImageFrame extends CanStartFrame {
+public class ShowImgFrame extends CanStartFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel preImagePanel;
@@ -27,7 +27,7 @@ public class ShowImageFrame extends CanStartFrame {
 	 * @param imgPath                  图片地址
 	 * @param wantLockFrameOfComponent 打开后想要锁定的窗体的组件,父窗体
 	 */
-	public ShowImageFrame(String imgPath, Component wantLockFrameOfComponent) {
+	public ShowImgFrame(String imgPath, Component wantLockFrameOfComponent) {
 		super(0, 0);
 		ImageIcon icon = new ImageIcon(imgPath);
 		int imgHeight = icon.getIconHeight();
@@ -43,7 +43,7 @@ public class ShowImageFrame extends CanStartFrame {
 	}
 	
 	/**
-	 * 
+	 * 点击面板，则注销面板
 	 * @author Administrator
 	 *
 	 */

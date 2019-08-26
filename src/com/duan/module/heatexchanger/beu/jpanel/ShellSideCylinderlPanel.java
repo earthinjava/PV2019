@@ -243,7 +243,7 @@ public class ShellSideCylinderlPanel extends JPanel implements ActionListener{
 		if (nThick == Constant.ERROR_DOUBLE) {
 			return;
 		}
-		Meterial shellMeterial = meterialButton.getMeterial();
+		Meterial shellMeterial = meterialButton.getSelectedMeterial();
 		if (shellMeterial == null) {
 			JOptionPaneUtils.warningMess(contentPanel, "请选择筒体材料");
 			return;

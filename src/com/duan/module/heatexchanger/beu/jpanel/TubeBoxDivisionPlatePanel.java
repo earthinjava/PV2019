@@ -259,7 +259,7 @@ public class TubeBoxDivisionPlatePanel extends JPanel implements ActionListener 
 		if (stress == Constant.ERROR_DOUBLE) {
 			return;
 		}
-		Meterial m = meterialButton.getMeterial();
+		Meterial m = meterialButton.getSelectedMeterial();
 		if (m == null) {
 			JOptionPaneUtils.warningMess(meterialButton, "请选择材料");
 			return;

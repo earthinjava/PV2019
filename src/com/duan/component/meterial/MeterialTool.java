@@ -3,6 +3,7 @@ package com.duan.component.meterial;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultComboBoxModel;
@@ -15,7 +16,9 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
+import com.duan.meterial.Meterial;
 import com.duan.meterial.MeterialDao;
+import com.duan.meterialstandard.MeterialStandard;
 import com.duan.utils.Constant;
 import com.duan.utils.FileUtils;
 import com.duan.utils.FontUtils;
@@ -43,54 +46,54 @@ public class MeterialTool {
 		if (firstStandType < 0 || firstStandType >= Constant.METERIALTYPES.length) {
 			firstStandType = 0;
 		}
-		// 材料类型箱子
-		meterialTypeBox = new JComboBox<String>();
+		meterialTypeBox = new JComboBox<String>();// 材料类型箱子
 		meterialTypeBox.setModel(new DefaultComboBoxModel<String>(Constant.METERIALTYPES));
 		meterialTypeBox.setSelectedIndex(firstStandType);
 		FontUtils.setDefaultFont(meterialTypeBox);
-		// 材料标准箱子
 		meterialStandardsBox = new MeterialStandardBox(nameLabel, typeLabel, meterialComponentLabel,
-				meterialTypeBox.getSelectedIndex());
-		// 符合材料标准的箱子
-		conformStandardMeterialsBox = new ConformStandardMeterialsBox(meterialStandardsBox.getSelectedStand());
-		// 材料列表
-		conformStandardMeterialslist = creatNewJList();
-		// 材料滚轴
-		meterialsScrollPane = new JScrollPane();
-		meterialsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		meterialsScrollPane.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		meterialsScrollPane.setViewportView(conformStandardMeterialslist);
-		// 材料类型该表，则该表材料标准箱内容
-		meterialTypeBox.addActionListener(new ActionListener() {
+				meterialTypeBox.getSelectedIndex()); // 材料标准箱子
+		setSelectedStandard(meterialStandardsBox.getSelectedStand());
+		meterialTypeBox.addActionListener(new ActionListener() {// 材料类型箱子改变，则改变材料标准箱内容
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				meterialStandardsBox.changeType(meterialTypeBox.getSelectedIndex());
+				meterialStandardsBox.addItems(meterialTypeBox.getSelectedIndex());
 			}
 		});
-		// 材料标准改变则该表材料内容
-		meterialStandardsBox.addActionListener(new ActionListener() {
+		meterialStandardsBox.addActionListener(new ActionListener() { // 材料标准箱子改变，则改变材料内容
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				conformStandardMeterialsBox.setMeterialStandard(meterialStandardsBox.getSelectedStand());
-				conformStandardMeterialslist = creatNewJList();
-				meterialsScrollPane.setViewportView(conformStandardMeterialslist);
+				setSelectedStandard(meterialStandardsBox.getSelectedStand());
 			}
 		});
 
 	}
 
 	/**
+	 * 设置所选择的材料标准
 	 * 
+	 * @param meterialStandard
 	 * @return
 	 */
-	private JList<String> creatNewJList() {
-		JList<String> list = new JList<String>(new MylistModel());
-		FontUtils.setDefaultFont(list);
-		DefaultListCellRenderer renderer = new DefaultListCellRenderer();
-		renderer.setHorizontalAlignment(SwingConstants.RIGHT);
-		list.setCellRenderer(renderer);
-		list.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		return list;
+	private void setSelectedStandard(MeterialStandard meterialStandard) {
+		if (conformStandardMeterialsBox == null) {
+			conformStandardMeterialsBox = new ConformStandardMeterialsBox(meterialStandardsBox.getSelectedStand());
+		} else {
+			conformStandardMeterialsBox.setMeterialStandard(meterialStandard);
+		}
+		if (conformStandardMeterialslist == null) {
+			conformStandardMeterialslist = new JList<String>(new MylistModel());
+			FontUtils.setDefaultFont(conformStandardMeterialslist);
+			DefaultListCellRenderer renderer = new DefaultListCellRenderer();
+			renderer.setHorizontalAlignment(SwingConstants.RIGHT);
+			conformStandardMeterialslist.setCellRenderer(renderer);
+			conformStandardMeterialslist.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		}
+		if (meterialsScrollPane == null) {
+			meterialsScrollPane = new JScrollPane(); // 材料列表滚轴
+			meterialsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			meterialsScrollPane.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		}
+		meterialsScrollPane.setViewportView(conformStandardMeterialslist);
 	}
 
 	public JScrollPane getMeterialsScrollPane() {
@@ -149,18 +152,26 @@ public class MeterialTool {
 
 		@Override
 		public String getElementAt(int index) {
-			// TODO Auto-generated method stub
-			return conformStandardMeterialsBox.getConformStandardMeterials().get(index).getName() + "--"
-					+ FileUtils.getLastModifiedTime(
-							new MeterialDao(conformStandardMeterialsBox.getConformStandardMeterials().get(index))
-									.getFilePath());
+			ArrayList<Meterial> meterials = conformStandardMeterialsBox.getConformStandardMeterials();
+			if (meterials == null) {
+				return null;
+			}
+			Meterial meterial = meterials.get(index);
+			if (meterial == null) {
+				return null;
+			}
+			String filePath = new MeterialDao(meterial).getFilePath();
+			if(filePath==null) {
+				return null;
+			}
+			return meterial.getName() + "--" + FileUtils.getLastModifiedTime(filePath);
 		}
 
 		@Override
 		public int getSize() {
-			// TODO Auto-generated method stub
-			if (conformStandardMeterialsBox.getConformStandardMeterials() != null) {
-				return conformStandardMeterialsBox.getConformStandardMeterials().size();
+			ArrayList<Meterial> meterials = conformStandardMeterialsBox.getConformStandardMeterials();
+			if (meterials != null) {
+				return meterials.size();
 			}
 			return 0;
 		}

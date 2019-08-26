@@ -106,19 +106,17 @@ public class MeterialDao {
 	 * @return
 	 */
 	public static ArrayList<Meterial> getConformStandardMeterials(MeterialStandard meterialStandard) {
-		// TODO 自动生成的方法存根
-		if(meterialStandard==null) {
+		if (meterialStandard == null) {// 材料标准不存在，直接返回
+			return null;
+		}
+		String pathname = new MeterialStandardDAO(meterialStandard).getFilePath();
+		File file = new File(pathname);
+		String[] fileList = file.list();
+		if (fileList == null) {// 材料标准中没有材料，返回空
 			return null;
 		}
 		ArrayList<Meterial> meterials = new ArrayList<Meterial>();
-		String pathname = new MeterialStandardDAO(meterialStandard).getFilePath();			
-		File file = new File(pathname);
-		String[] fileList = file.list();
-		if (fileList == null) {
-			return null;
-		}		
 		for (String f : fileList) {
-			// 排除属性表的可能
 			if (!f.equals("standardproperty.xls")) {
 				String pn = pathname + "/" + f;
 				Meterial meterial = getMeterialByPath(pn, meterialStandard);

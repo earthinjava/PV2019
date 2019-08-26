@@ -80,7 +80,7 @@ public class CylinderShellMessPanel extends JPanel {
 				} else {
 					isHorizontal = false;
 				}
-				Meterial meterial = meterialButton.getMeterial();
+				Meterial meterial = meterialButton.getSelectedMeterial();
 				if (meterial == null) {
 					JOptionPaneUtils.warningMess(button, "请先选择材料");
 					return;

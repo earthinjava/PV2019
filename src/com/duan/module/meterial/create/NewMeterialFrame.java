@@ -8,7 +8,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 
 import com.duan.component.CanStartFrame;
-import com.duan.component.meterial.SlectMeterialFrame;
+import com.duan.component.meterial.SelectMeterialFrame;
 import com.duan.meterial.GeneralMeterial;
 import com.duan.meterial.Meterial;
 import com.duan.utils.FontUtils;
@@ -19,7 +19,7 @@ public class NewMeterialFrame extends CanStartFrame {
 	private JPanel contentPanel;
 	private JTabbedPane tabbedPane;
 	private StressAndPropertyPanel stressAndPropertiesPanel;
-	private SlectMeterialFrame slectMeterialFrame;
+	private SelectMeterialFrame slectMeterialFrame;
 
 	/**
 	 * 新建材料窗体
@@ -50,7 +50,7 @@ public class NewMeterialFrame extends CanStartFrame {
 	 * @param meterial
 	 * @param slectMeterialFrame
 	 */
-	public NewMeterialFrame(Meterial meterial, SlectMeterialFrame slectMeterialFrame) {
+	public NewMeterialFrame(Meterial meterial, SelectMeterialFrame slectMeterialFrame) {
 		this();
 		this.slectMeterialFrame = slectMeterialFrame;		
 		stressAndPropertiesPanel = new StressAndPropertyPanel(meterial, this, 1);

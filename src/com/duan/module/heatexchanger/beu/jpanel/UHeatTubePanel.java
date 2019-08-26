@@ -230,10 +230,10 @@ public class UHeatTubePanel extends JPanel implements ActionListener {
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			// TODO Auto-generated method stub
-			if (meterialButton.getMeterial() == null) {
+			if (meterialButton.getSelectedMeterial() == null) {
 				return;
 			}
-			boolean isNonferrous = meterialButton.getMeterial().getMeterialStandard().getProperty().isNonferrous();
+			boolean isNonferrous = meterialButton.getSelectedMeterial().getMeterialStandard().getProperty().isNonferrous();
 			System.out.println(isNonferrous);
 			if (isNonferrous) {
 				tubeClassBox.removeAllItems();
@@ -260,7 +260,7 @@ public class UHeatTubePanel extends JPanel implements ActionListener {
 		if (stress == Constant.ERROR_DOUBLE) {
 			return;
 		}
-		Meterial m = meterialButton.getMeterial();
+		Meterial m = meterialButton.getSelectedMeterial();
 		if (m == null) {
 			JOptionPaneUtils.warningMess(this, "请选择换热管材料");
 			return;

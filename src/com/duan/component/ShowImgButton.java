@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 import javax.swing.JButton;
 
-import com.duan.component.image.ShowImageFrame;
+import com.duan.component.image.ShowImgFrame;
 
 public class ShowImgButton extends JButton implements Serializable, ActionListener {
 
@@ -23,7 +23,7 @@ public class ShowImgButton extends JButton implements Serializable, ActionListen
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO 自动生成的方法存根
-		new ShowImageFrame(imgPath, this);
+		new ShowImgFrame(imgPath, this);
 	}
 
 }

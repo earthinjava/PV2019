@@ -368,7 +368,7 @@ public class HeadAndShellShowPanel extends HaveNeedSavePanel implements ActionLi
 			// 获得封头型式
 			String headType = headTypeComboBox.getSelectedItem() + "";
 			// 获得设备材料
-			Meterial meterial = meterialButton.getMeterial();
+			Meterial meterial = meterialButton.getSelectedMeterial();
 			if (meterial == null) {
 				JOptionPaneUtils.warningMess(contentPanel, "请先选择材料");
 				return false;

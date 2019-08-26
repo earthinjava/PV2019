@@ -133,14 +133,27 @@ public class MeterialStandardDAO {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * 获得标准文件夹位置，如：c:/src/data/meterial/GB713-2016-06
+	 * 
 	 * @return
 	 */
 	public String getFilePath() {
-		String standNum = meterialStandard.getStandardNum().replace('/', '1');
-		return Constant.METERIALSTANDDARDS_FOLDERPATH + "/" + standNum + "-"
-				+ DateUtils.parseDateToStringMonth(meterialStandard.getImplementationDate());
+		String standNum = meterialStandard.getStandardNum();
+		if (standNum == null) {// 标准号没输入，直接返回
+			return null;
+		}
+		standNum = standNum.replace('/', '1');// 将非法字符串替换掉
+		Date date = meterialStandard.getImplementationDate();
+		if (date == null) {// 日期错误直接返回
+			return null;
+		}
+		String dateString = DateUtils.parseDateToStringMonth(date);
+		if (dateString == null) {
+			return null;
+		}
+		return Constant.METERIALSTANDDARDS_FOLDERPATH + "/" + standNum + "-" + dateString;
 	}
 
 	/**

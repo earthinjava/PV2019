@@ -67,8 +67,8 @@ public class BoxChangeImgPanel extends JPanel {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub
-			super.mouseClicked(e);
-			new ShowImageFrame(imgsPath[box.getSelectedIndex()], selJPanel);
+			super.mouseClicked(e);			
+			new ShowImgFrame(getImgPath(), selJPanel);
 		}
 	}
 
@@ -96,7 +96,7 @@ public class BoxChangeImgPanel extends JPanel {
 	public void paint(Graphics g) {
 		// TODO Auto-generated method stub
 		super.paint(g);
-		ImageUtils.drawImageCenter(imgsPath[box.getSelectedIndex()], this, g);
+		ImageUtils.drawImageCenter(getImgPath(), this, g);
 	}
 
 	/**
@@ -106,6 +106,20 @@ public class BoxChangeImgPanel extends JPanel {
 	 */
 	public JComboBox<String> getBox() {
 		return box;
+	}
+	
+	private String getImgPath() {
+		int index = box.getSelectedIndex();
+		if (index < 0) {
+			return null;
+		}
+		if (imgsPath == null || imgsPath.length <= 0) {
+			return null;
+		}
+		if (index > imgsPath.length - 1) {
+			return null;
+		}
+		return imgsPath[index];
 	}
 
 }

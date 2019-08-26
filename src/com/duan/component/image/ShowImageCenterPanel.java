@@ -30,7 +30,8 @@ public class ShowImageCenterPanel extends JPanel {
 	}
 
 	
-	public ShowImageCenterPanel(String imgPath) {		
+	public ShowImageCenterPanel(String imgPath) {	
+		this();
 		this.imgPath = imgPath;		
 	}
 	
@@ -41,11 +42,9 @@ public class ShowImageCenterPanel extends JPanel {
 	 * @param imgPath    设置面板所显示的图片的地址
 	 * @param isCanBiger 设置面板点击后是否可放大
 	 */
-	public ShowImageCenterPanel(int width, int height, String imgPath, boolean isCanBiger) {
-		this();
-		this.imgPath = imgPath;
+	public ShowImageCenterPanel(int width, int height, String imgPath, boolean isCanBiger) {		
+		this(imgPath);
 		setSize(width, height);
-
 		// 可以放大，则添加放大窗体
 		if (isCanBiger) {
 			addMouseListener(new BigMouseAdapter());
@@ -66,7 +65,7 @@ public class ShowImageCenterPanel extends JPanel {
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub
 			super.mouseClicked(e);
-			new ShowImageFrame(imgPath, showImageCenterPanel);
+			new ShowImgFrame(imgPath, showImageCenterPanel);
 		}
 	}
 

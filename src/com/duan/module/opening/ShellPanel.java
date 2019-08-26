@@ -240,7 +240,7 @@ public class ShellPanel extends JPanel implements ActionListener {
 			isSucessApply = false;
 			return false;
 		}
-		Meterial shellMeterial = meterialButton.getMeterial();
+		Meterial shellMeterial = meterialButton.getSelectedMeterial();
 		double shellE = shellEff.getDoubleNoNull("请输入筒体焊接接头系数");
 		if (shellE == Constant.ERROR_DOUBLE) {
 			isSucessApply = false;

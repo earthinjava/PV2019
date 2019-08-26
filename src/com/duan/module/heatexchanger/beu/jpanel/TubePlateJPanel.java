@@ -637,7 +637,7 @@ public class TubePlateJPanel extends JPanel implements ActionListener {
 				return;
 			}
 		}
-		Meterial m = meterialButton.getMeterial();
+		Meterial m = meterialButton.getSelectedMeterial();
 		if (m == null) {
 			JOptionPaneUtils.warningMess(this, "请选择管板材料");
 			return;
