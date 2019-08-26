@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -262,21 +263,9 @@ public class StructuralDesignJPanel extends JPanel {
 		JLabel label_62 = new JLabel("\u5708");
 		label_62.setBounds(281, 400, 29, 20);
 		panel_1.add(label_62);
-		actualCalButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				preCal();
-				actualCal();
-			}
-		});
-
-		preCalButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				preCal();
-			}
-		});
+		
+		actualCalButton.addActionListener(new ActualCalButtonActionListener());
+		preCalButton.addActionListener(new PreCalButtonActionListener());
 
 		JPanel actualPanel = new JPanel();
 		actualPanel.setLayout(null);
@@ -477,6 +466,30 @@ public class StructuralDesignJPanel extends JPanel {
 
 		PanelUtils.setAllComFont(panel_1);
 		PanelUtils.setAllComFont(actualPanel);
+	}
+
+	class ActualCalButtonActionListener implements ActionListener, Serializable {
+
+		private static final long serialVersionUID = 5782970299939264665L;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO 自动生成的方法存根
+			preCal();
+			actualCal();
+		}
+
+	}
+
+	class PreCalButtonActionListener implements ActionListener, Serializable {
+		private static final long serialVersionUID = 460078378492401157L;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO 自动生成的方法存根
+			preCal();
+		}
+
 	}
 
 	public void preCal() {

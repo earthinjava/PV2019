@@ -15,8 +15,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import com.duan.component.PureNumField;
+import com.duan.component.ShowImgButton;
 import com.duan.component.image.BoxChangeImgPanel;
-import com.duan.component.image.ShowImageFrame;
 import com.duan.module.heatexchanger.sprialPlate.bean.SprialPlateHeatExchanger;
 import com.duan.module.heatexchanger.sprialPlate.bean.ThermalCalculation;
 import com.duan.module.heatexchanger.sprialPlate.bean.designCondition.SPHEDesignConditions;
@@ -26,7 +26,7 @@ import com.duan.utils.JOptionPaneUtils;
 import com.duan.utils.LabelAndFieldUtils;
 import com.duan.utils.PanelUtils;
 
-public class ThermalCalculationJPanel extends JPanel {
+public class ThermalCalculationJPanel extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	private SprialPlateHeatExchanger sprialHeat;
@@ -187,12 +187,7 @@ public class ThermalCalculationJPanel extends JPanel {
 		label_13.setBounds(232, 190, 53, 20);
 		jPanel.add(label_13);
 
-		JButton foulingResistanceButton = new JButton("\u67E5\u56FE");
-		foulingResistanceButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new ShowImageFrame(foulingResistanceFigPath, contentPane);
-			}
-		});
+		ShowImgButton foulingResistanceButton = new ShowImgButton(foulingResistanceFigPath);			
 		foulingResistanceButton.setBounds(80, 220, 142, 20);
 		jPanel.add(foulingResistanceButton);
 
@@ -205,13 +200,7 @@ public class ThermalCalculationJPanel extends JPanel {
 		spiralPlateThermalField.setBounds(156, 250, 66, 20);
 		jPanel.add(spiralPlateThermalField);
 
-		JButton spiralPlateThermalButton = new JButton("\u67E5\u56FE");
-		spiralPlateThermalButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new ShowImageFrame(metalThermalFigPath, contentPane);
-			}
-		});
-
+		ShowImgButton spiralPlateThermalButton = new ShowImgButton(metalThermalFigPath);
 		spiralPlateThermalButton.setBounds(80, 280, 142, 20);
 		jPanel.add(spiralPlateThermalButton);
 
@@ -394,12 +383,7 @@ public class ThermalCalculationJPanel extends JPanel {
 		pillarBox.setBounds(156, 310, 66, 23);
 		jPanel.add(pillarBox);
 
-		calHeatButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				calHeat();
-			}
-		});
+		calHeatButton.addActionListener(this);
 		PanelUtils.setAllComFont(jPanel);
 	}
 
@@ -512,5 +496,12 @@ public class ThermalCalculationJPanel extends JPanel {
 		} else {
 			coldPressDropMarginLabe.setForeground(Color.black);
 		}
+	}
+
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO 自动生成的方法存根
+		calHeat();
 	}
 }
