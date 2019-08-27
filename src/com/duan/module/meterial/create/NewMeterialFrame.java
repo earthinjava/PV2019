@@ -9,7 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.duan.component.CanStartFrame;
 import com.duan.component.meterial.SelectMeterialFrame;
-import com.duan.meterial.GeneralMeterial;
+import com.duan.meterial.Meterial;
 import com.duan.meterial.Meterial;
 import com.duan.utils.FontUtils;
 
@@ -38,7 +38,7 @@ public class NewMeterialFrame extends CanStartFrame {
 		tabbedPane.setBounds(0, 0, 1200, 450);
 		contentPanel.add(tabbedPane);
 		
-		Meterial meterial = new GeneralMeterial();
+		Meterial meterial = new Meterial();
 		stressAndPropertiesPanel = new StressAndPropertyPanel(meterial, this);
 		stressAndPropertiesPanel.setLocation(0, 0);
 		addTabbedPane(stressAndPropertiesPanel, "许用应力及物理属性");		

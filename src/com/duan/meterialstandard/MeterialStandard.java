@@ -3,24 +3,72 @@ package com.duan.meterialstandard;
 import java.io.Serializable;
 import java.util.Date;
 
-public interface MeterialStandard extends Serializable{
-	Date getImplementationDate();
+import com.duan.utils.DateUtils;
 
-	int getMeterialType();
+public class MeterialStandard implements Serializable {
 
-	String getName();
+	private static final long serialVersionUID = 1L;
+	private String standardNum;
+	private String name;
+	private Date date;
+	private int meterialType;
+	private MeterialStandardProperty property;
 
-	void setName(String name);
+	@Override
+	/**
+	 * 标准号及标准日期相同，则说明标准相同
+	 */
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		if (obj instanceof MeterialStandard) {
+			MeterialStandard m = (MeterialStandard) obj;
+			if (m.getStandardNum().equals(standardNum) && DateUtils.parseDateToStringMonth(date)
+					.equals(DateUtils.parseDateToStringMonth(m.getImplementationDate()))) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-	void setMeterialType(int type);
+	public Date getImplementationDate() {
+		return date;
+	}
 
-	void setImplementationDate(Date date);
+	public int getMeterialType() {
+		return meterialType;
+	}
 
-	String getStandardNum();
+	public String getName() {
+		return name;
+	}
 
-	void setStandardNum(String standardNum);
+	public void setName(String name) {
+		this.name = name;
+	}
 
-	void setProperty(MeterialStandardProperty property);
+	public void setMeterialType(int type) {
+		this.meterialType = type;
+	}
 
-	MeterialStandardProperty getProperty();
+	public void setImplementationDate(Date date) {
+		this.date = date;
+	}
+
+	public String getStandardNum() {
+		return standardNum;
+	}
+
+	public void setStandardNum(String standardNum) {
+		this.standardNum = standardNum;
+	}
+
+	public void setProperty(MeterialStandardProperty property) {
+		// TODO Auto-generated method stub
+		this.property = property;
+	}
+
+	public MeterialStandardProperty getProperty() {
+		return property;
+	}
+
 }

@@ -2,13 +2,10 @@ package com.duan.medium;
 
 import com.duan.utils.ArrayUtils;
 
-public class H2O implements Medium {
-
-	/**
-	 * 
-	 */
+public class H2O extends Medium {
+	
 	private static final long serialVersionUID = -744629020440042543L;
-	private final String name = "";
+	private final String name = "水";
 	private final boolean isGass = false;
 	private final boolean isLiquid = true;
 	private final boolean isLethal = false;
@@ -26,11 +23,12 @@ public class H2O implements Medium {
 		specificHeatCapacity = getSpecificHeatCapacityByTemp(temperature);
 		thermalConductivity = getThermalConductivityByTemp(temperature);
 	}
-
+	
+	@Override
 	public String getName() {
 		return name;
 	}
-
+	
 	public boolean isGass() {
 		return isGass;
 	}

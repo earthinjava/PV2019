@@ -109,7 +109,7 @@ public class MeterialStandardDAO {
 			ExcelUtils.createAndSetCellStringValue(row, 3, Constant.METERIALTYPE_PLATE);
 			// 写入standsList.xls文件
 			if (ExcelUtils.writeWorkbookInExcel(workbook, Constant.METERIALSTANDDARDS_FILEPATH, null, true)) {
-				MeterialStandard meterialStandard = new GeneralMeterialStandard();
+				MeterialStandard meterialStandard = new MeterialStandard();
 				meterialStandard.setImplementationDate(DateUtils.parseStringToDate("2014-06"));
 				meterialStandard.setMeterialType(0);
 				meterialStandard.setName("锅炉和压力容器用钢板");
@@ -191,7 +191,7 @@ public class MeterialStandardDAO {
 					} else if (type.equals(Constant.METERIALTYPE_FORGING)) {
 						typeNum = 2;
 					}
-					GeneralMeterialStandard generalMeterialStandard = new GeneralMeterialStandard();
+					MeterialStandard generalMeterialStandard = new MeterialStandard();
 					meterialStandards.add(generalMeterialStandard);
 					// 设置标准基本属性
 					generalMeterialStandard.setStandardNum(standardNum);

@@ -15,7 +15,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
 import com.duan.component.CanStartFrame;
-import com.duan.meterialstandard.GeneralMeterialStandard;
+import com.duan.meterialstandard.MeterialStandard;
 import com.duan.meterialstandard.MeterialStandard;
 import com.duan.meterialstandard.MeterialStandardDAO;
 import com.duan.meterialstandard.MeterialStandardProperty;
@@ -143,7 +143,7 @@ public class NewMeterialStandardFrame extends CanStartFrame implements ActionLis
 			nameField.requestFocus();
 			return;
 		}
-		MeterialStandard meterialStandard = new GeneralMeterialStandard();
+		MeterialStandard meterialStandard = new MeterialStandard();
 		MeterialStandardProperty standardProperty = new MeterialStandardProperty();
 		standardProperty.setMeterialComponent(meterialComponentBoxBox.getSelectedItem().toString());
 		meterialStandard.setImplementationDate(DateUtils.parseStringToDate(year + "-" + month));

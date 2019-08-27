@@ -143,7 +143,7 @@ public class MeterialDao {
 			workbook = new HSSFWorkbook(inp);
 			HSSFSheet stressSheet = workbook.getSheet("allowStress");
 			HSSFSheet proSheet = workbook.getSheet("properties");
-			meterial = new GeneralMeterial();
+			meterial = new Meterial();
 			meterial.setMeterialStandard(meterialStandard);
 			String name = meterialExcelPath.substring(meterialExcelPath.lastIndexOf("/") + 1);
 			name = name.substring(0, name.lastIndexOf("."));
