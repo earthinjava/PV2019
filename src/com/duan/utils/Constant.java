@@ -74,5 +74,4 @@ public class Constant {
 	public static final String SERIALIZEFOLDER_PATH = "src/data/serialize";
 	//计算模式的中文与英文名称
 	public final static String[] MODULE_CHINAME = new String[] { "开孔补强", "U型管换热器", "螺旋板换热器", "容积及重量计算"};
-
 }

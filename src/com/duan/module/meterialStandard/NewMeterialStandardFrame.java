@@ -16,7 +16,6 @@ import javax.swing.border.EmptyBorder;
 
 import com.duan.component.CanStartFrame;
 import com.duan.meterialstandard.MeterialStandard;
-import com.duan.meterialstandard.MeterialStandard;
 import com.duan.meterialstandard.MeterialStandardDAO;
 import com.duan.meterialstandard.MeterialStandardProperty;
 import com.duan.utils.Constant;

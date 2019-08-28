@@ -10,7 +10,6 @@ import javax.swing.border.EmptyBorder;
 import com.duan.component.CanStartFrame;
 import com.duan.component.meterial.SelectMeterialFrame;
 import com.duan.meterial.Meterial;
-import com.duan.meterial.Meterial;
 import com.duan.utils.FontUtils;
 
 public class NewMeterialFrame extends CanStartFrame {
@@ -41,7 +40,8 @@ public class NewMeterialFrame extends CanStartFrame {
 		Meterial meterial = new Meterial();
 		stressAndPropertiesPanel = new StressAndPropertyPanel(meterial, this);
 		stressAndPropertiesPanel.setLocation(0, 0);
-		addTabbedPane(stressAndPropertiesPanel, "许用应力及物理属性");		
+		tabbedPane.addTab( "许用应力及物理属性", null, stressAndPropertiesPanel, null);
+		FontUtils.setDefaultFont(tabbedPane);		
 	}
 
 	/**
@@ -52,11 +52,12 @@ public class NewMeterialFrame extends CanStartFrame {
 	 */
 	public NewMeterialFrame(Meterial meterial, SelectMeterialFrame slectMeterialFrame) {
 		this();
+		tabbedPane.removeAll();
 		this.slectMeterialFrame = slectMeterialFrame;		
 		stressAndPropertiesPanel = new StressAndPropertyPanel(meterial, this, 1);
 		stressAndPropertiesPanel.setLocation(0, 0);		
-		tabbedPane.removeAll();
-		addTabbedPane(stressAndPropertiesPanel, "许用应力及物理属性");	
+		tabbedPane.addTab( "许用应力及物理属性", null, stressAndPropertiesPanel, null);
+		FontUtils.setDefaultFont(tabbedPane);
 	}
 
 	@Override
@@ -66,11 +67,5 @@ public class NewMeterialFrame extends CanStartFrame {
 		if (slectMeterialFrame != null) {			
 			slectMeterialFrame.dispose();
 		}
-	}
-
-	private void addTabbedPane(JPanel moduleJPanel, String meduleName) {		
-		tabbedPane.add(moduleJPanel);
-		FontUtils.setDefaultFont(tabbedPane);
-		tabbedPane.addTab(meduleName, null, moduleJPanel, null);
 	}
 }
