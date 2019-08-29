@@ -34,8 +34,9 @@ public class ChildFrame extends JFrame implements WindowListener {
 
 	public ChildFrame(int width, int height) {
 		// TODO Auto-generated constructor stub
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setSize(width, height);
 		setResizable(false);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setIconImage(new ImageIcon("src/img/menu/main.png").getImage());
 		FrameUtils.setFrameAtScreenCenter(this, width, height);
 		addWindowListener(this);
@@ -51,15 +52,19 @@ public class ChildFrame extends JFrame implements WindowListener {
 	public void windowClosing(WindowEvent e) {
 		// TODO 自动生成的方法存根
 		try {
-			for (int i = 0; i <= 100; i++) {
+			int w = getWidth();
+			int h = getHeight();
+			int i = w / 15;
+			int j = h / 15;
+			while (w >= 0 && h >= 0) {
 				Thread.sleep(10);
-				setSize(500-i, 500-i);
+				setSize(w, h);
+				w -= i;
+				h -= j;
 			}
-		} catch (
+		} catch (Exception e1) {
 
-		Exception e1) {
-
-		}		
+		}
 	}
 
 	@Override

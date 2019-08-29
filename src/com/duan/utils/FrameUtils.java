@@ -8,7 +8,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.CloseAction;
 
 import com.duan.component.ChildFrame;
 
@@ -24,8 +23,7 @@ public class FrameUtils {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		int w = dim.width;
 		int h = dim.height;
-		frame.setBounds(new Rectangle((w - width) / 2, (h - height) / 2, width, height));
-		frame.setResizable(false);
+		frame.setBounds(new Rectangle((w - width) / 2, (h - height) / 2, width, height));		
 	}
 
 	/**
@@ -49,8 +47,27 @@ public class FrameUtils {
 			childFrame.addWindowListener(new WindowAdapter() {
 				public void windowClosed(WindowEvent e) {
 					if (fatherFrame != null) {
-						fatherFrame.setEnabled(true);
 						fatherFrame.setVisible(true);
+						// 逐渐放大
+						int w = fatherFrame.getWidth();
+						int h = fatherFrame.getHeight();
+						try {
+							int i = w / 15;
+							int j = h / 15;
+							int bw = w - 15 * i;
+							int bh = h - 15 * j;
+							while (bw >= w || bh >= h) {
+								Thread.sleep(10);
+								fatherFrame.setSize(bw, bh);
+								bw += i;
+								bh += j;
+							}
+						} catch (InterruptedException e1) {
+							// TODO 自动生成的 catch 块
+							e1.printStackTrace();
+						}
+						fatherFrame.setSize(w, h);
+						fatherFrame.setEnabled(true);
 						fatherFrame.requestFocus();
 					}
 				};
@@ -87,5 +104,4 @@ public class FrameUtils {
 		}
 	}
 
-	
 }
