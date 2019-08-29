@@ -13,7 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
-import com.duan.component.CanStartFrame;
+import com.duan.component.ChildFrame;
 import com.duan.component.meterial.MeterialTool;
 import com.duan.component.meterial.MeterialStandardBox;
 import com.duan.meterialstandard.MeterialStandardDAO;
@@ -25,7 +25,7 @@ import com.duan.utils.PanelUtils;
  * @author Administrator
  *
  */
-public class DelMeterialStandardFrame extends CanStartFrame implements ActionListener {
+public class DelMeterialStandardFrame extends ChildFrame implements ActionListener {
 
 	private static final long serialVersionUID = 653097626768066387L;
 	private JPanel contentPane;
@@ -37,7 +37,8 @@ public class DelMeterialStandardFrame extends CanStartFrame implements ActionLis
 	private JLabel meComLabel;
 
 	public DelMeterialStandardFrame() {
-		super(260, 395);
+		super(260, 400);
+		setTitle("查询材料标准");
 
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.menu);
@@ -62,7 +63,7 @@ public class DelMeterialStandardFrame extends CanStartFrame implements ActionLis
 		contentPane.add(label_3);
 
 		JButton delButton = new JButton("\u5220\u9664\u6807\u51C6");
-		delButton.setBounds(10, 340, 224, 25);
+		delButton.setBounds(10, 330, 224, 25);
 		contentPane.add(delButton);
 
 		meterialBox = new MeterialTool(0);

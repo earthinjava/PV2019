@@ -29,7 +29,7 @@ import com.duan.module.queryImage.CarbonAllowTempFrame;
 import com.duan.utils.FontUtils;
 import com.duan.utils.FrameUtils;
 
-public class StartFrame extends JFrame implements ActionListener{
+public class StartFrame extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane tabbedPane;
@@ -57,6 +57,7 @@ public class StartFrame extends JFrame implements ActionListener{
 		FontUtils.setDefaultFont(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
+		setTitle("压力容器工具集");
 		setIconImage(new ImageIcon("src/img/menu/main.png").getImage());
 
 		contentPanel = new JPanel();
@@ -123,6 +124,6 @@ public class StartFrame extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO 自动生成的方法存根
 		contentPanel.add(tabbedPane);
-		FrameUtils.clockAndUnclockFatherFrame(contentPanel, new SelectCalculateFrame(tabbedPane));	
+		FrameUtils.clockAndUnclockFatherFrame(contentPanel, new SelectCalculateFrame(tabbedPane));
 	}
 }

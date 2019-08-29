@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
-import com.duan.component.CanStartFrame;
+import com.duan.component.ChildFrame;
 import com.duan.meterialstandard.MeterialStandard;
 import com.duan.meterialstandard.MeterialStandardDAO;
 import com.duan.meterialstandard.MeterialStandardProperty;
@@ -29,7 +29,7 @@ import com.duan.utils.PanelUtils;
  * @author Administrator
  *
  */
-public class NewMeterialStandardFrame extends CanStartFrame implements ActionListener {
+public class NewMeterialStandardFrame extends ChildFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -42,6 +42,7 @@ public class NewMeterialStandardFrame extends CanStartFrame implements ActionLis
 
 	public NewMeterialStandardFrame() {
 		super(260, 250);
+		setTitle("新建材料标准");
 
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.menu);

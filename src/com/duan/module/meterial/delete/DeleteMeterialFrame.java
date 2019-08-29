@@ -10,14 +10,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.duan.component.CanStartFrame;
+import com.duan.component.ChildFrame;
 import com.duan.component.meterial.ConformStandardMeterialsBox;
 import com.duan.component.meterial.MeterialTool;
 import com.duan.component.meterial.MeterialStandardBox;
 import com.duan.meterial.MeterialDao;
 import com.duan.utils.PanelUtils;
 
-public class DeleteMeterialFrame extends CanStartFrame {
+public class DeleteMeterialFrame extends ChildFrame {
 
 	private static final long serialVersionUID = 653097626768066387L;
 	private JPanel contentPane;
@@ -30,6 +30,7 @@ public class DeleteMeterialFrame extends CanStartFrame {
 	 */
 	public DeleteMeterialFrame() {
 		super( 250, 180);
+		setTitle("删除材料");
 
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.menu);

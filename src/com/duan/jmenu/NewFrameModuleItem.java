@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 
-import com.duan.component.CanStartFrame;
+import com.duan.component.ChildFrame;
 import com.duan.utils.FontUtils;
 import com.duan.utils.FrameUtils;
 
@@ -36,7 +36,7 @@ public class NewFrameModuleItem extends JMenuItem {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					CanStartFrame jMenuItemStartFrame = (CanStartFrame) Class.forName(className).getConstructor()
+					ChildFrame jMenuItemStartFrame = (ChildFrame) Class.forName(className).getConstructor()
 							.newInstance();
 					// 设置锁定与解锁
 					FrameUtils.clockAndUnclockFatherFrame(mainFrame, jMenuItemStartFrame);

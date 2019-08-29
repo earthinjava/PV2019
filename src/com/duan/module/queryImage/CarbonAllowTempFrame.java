@@ -5,11 +5,11 @@ import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import com.duan.component.CanStartFrame;
+import com.duan.component.ChildFrame;
 import com.duan.component.image.ShowImageCenterPanel;
 import com.duan.utils.FrameUtils;
 
-public class CarbonAllowTempFrame extends CanStartFrame {
+public class CarbonAllowTempFrame extends ChildFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;

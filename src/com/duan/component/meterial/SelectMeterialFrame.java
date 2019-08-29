@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.duan.component.CanStartFrame;
+import com.duan.component.ChildFrame;
 import com.duan.meterial.Meterial;
 import com.duan.meterial.MeterialDao;
 import com.duan.meterialstandard.MeterialStandard;
@@ -29,7 +29,7 @@ import com.duan.utils.PanelUtils;
  * @author Administrator
  *
  */
-public class SelectMeterialFrame extends CanStartFrame {
+public class SelectMeterialFrame extends ChildFrame {
 
 	private static final long serialVersionUID = 653097626768066387L;
 	private JPanel contentPane;
@@ -50,6 +50,7 @@ public class SelectMeterialFrame extends CanStartFrame {
 	 */
 	public SelectMeterialFrame(int fistStandType) {
 		super(250, 180);
+		setTitle("查询材料");
 		SelectMeterialFrame slectMeterialFrame = this;
 
 		contentPane = new JPanel();

@@ -7,12 +7,12 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 
-import com.duan.component.CanStartFrame;
+import com.duan.component.ChildFrame;
 import com.duan.component.meterial.SelectMeterialFrame;
 import com.duan.meterial.Meterial;
 import com.duan.utils.FontUtils;
 
-public class NewMeterialFrame extends CanStartFrame {
+public class NewMeterialFrame extends ChildFrame {
 
 	private static final long serialVersionUID = 8925496833041725076L;
 	private JPanel contentPanel;
@@ -25,6 +25,7 @@ public class NewMeterialFrame extends CanStartFrame {
 	 */
 	public NewMeterialFrame() {
 		super( 1100, 440);
+		setTitle("新建材料");
 
 		contentPanel = new JPanel();
 		contentPanel.setBackground(Color.white);
@@ -52,6 +53,7 @@ public class NewMeterialFrame extends CanStartFrame {
 	 */
 	public NewMeterialFrame(Meterial meterial, SelectMeterialFrame slectMeterialFrame) {
 		this();
+		setTitle("查询材料");
 		tabbedPane.removeAll();
 		this.slectMeterialFrame = slectMeterialFrame;		
 		stressAndPropertiesPanel = new StressAndPropertyPanel(meterial, this, 1);

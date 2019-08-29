@@ -8,7 +8,7 @@ import java.io.Serializable;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import com.duan.component.CanStartFrame;
+import com.duan.component.ChildFrame;
 import com.duan.utils.FrameUtils;
 
 /**
@@ -17,7 +17,7 @@ import com.duan.utils.FrameUtils;
  * @author Administrator
  *
  */
-public class ShowImgFrame extends CanStartFrame {
+public class ShowImgFrame extends ChildFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel preImagePanel;

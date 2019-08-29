@@ -16,6 +16,8 @@ public class Constant {
 	public final static String METERIALSTANDDARDS_FILEPATH = "src/data/meterial/standardList.xls";
 	// 标准文件库文件夹地址
 	public final static String METERIALSTANDDARDS_FOLDERPATH = "src/data/meterial";
+	// 介质文件库文件夹地址
+	public final static String MEDIUM_FOLDERPATH = "src/data/medium";
 	// 材料标准型号
 	public final static String METERIALTYPE_PLATE = "板材";
 	public final static String METERIALTYPE_TUBE = "管材";
@@ -72,6 +74,6 @@ public class Constant {
 	public static final Font FONT_SONG12 = new Font("宋体", Font.PLAIN, 12);
 	// 序列化文件父目录
 	public static final String SERIALIZEFOLDER_PATH = "src/data/serialize";
-	//计算模式的中文与英文名称
-	public final static String[] MODULE_CHINAME = new String[] { "开孔补强", "U型管换热器", "螺旋板换热器", "容积及重量计算"};
+	// 计算模式的中文与英文名称
+	public final static String[] MODULE_CHINAME = new String[] { "开孔补强", "U型管换热器", "螺旋板换热器", "容积及重量计算" };
 }

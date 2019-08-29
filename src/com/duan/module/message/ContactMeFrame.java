@@ -5,11 +5,11 @@ import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.duan.component.CanStartFrame;
+import com.duan.component.ChildFrame;
 import com.duan.component.image.ShowImageCenterPanel;
 import com.duan.utils.Constant;
 
-public class ContactMeFrame extends CanStartFrame {
+public class ContactMeFrame extends ChildFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;

@@ -7,11 +7,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.duan.component.CanStartFrame;
+import com.duan.component.ChildFrame;
 import com.duan.utils.DateUtils;
 import com.duan.utils.PanelUtils;
 
-public class VersionFrame extends CanStartFrame {
+public class VersionFrame extends ChildFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;

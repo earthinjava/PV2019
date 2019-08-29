@@ -1,24 +1,22 @@
 package com.duan.module.calculate;
 
-import java.awt.Color;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
-import com.duan.component.CanStartFrame;
+import com.duan.component.ChildFrame;
 import com.duan.component.tablebutton.MyJTable;
 import com.duan.utils.PanelUtils;
 
-public class SelectCalculateFrame extends CanStartFrame {
+public class SelectCalculateFrame extends ChildFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -28,6 +26,7 @@ public class SelectCalculateFrame extends CanStartFrame {
 
 	public SelectCalculateFrame(JTabbedPane tabbedPane) {
 		super(500, 420);
+		setTitle("计算库");
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -36,12 +35,8 @@ public class SelectCalculateFrame extends CanStartFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel calTypeLabel = new JLabel("计算");
-		calTypeLabel.setBounds(208, 10, 65, 25);
-		contentPane.add(calTypeLabel);
-
 		calTypeBox = new JComboBox<String>();
-		calTypeBox.setBounds(283, 11, 200, 23);
+		calTypeBox.setBounds(280, 11, 200, 23);
 		contentPane.add(calTypeBox);
 
 		String[] calTypes = CalculateDao.getCalTypeList();
@@ -71,9 +66,9 @@ public class SelectCalculateFrame extends CanStartFrame {
 		String calType = calTypeBox.getSelectedItem().toString();
 		calsTable = CalculateDao.getCalTypeTable(calType, this, tabbedPane);
 		scrollPane = new JScrollPane(calsTable);
-		scrollPane.setBackground(Color.white);
+		scrollPane.setBackground(SystemColor.menu);
 		scrollPane.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		scrollPane.setBounds(10, 45, 473, 337);
+		scrollPane.setBounds(5, 45, 475, 330);
 		contentPane.add(scrollPane);
 	}
 
