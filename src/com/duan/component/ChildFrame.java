@@ -11,7 +11,7 @@ import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import com.duan.utils.FrameUtils;
 
-public class ChildFrame extends JFrame implements WindowListener {
+public class ChildFrame extends JFrame implements WindowListener{
 
 	private static final long serialVersionUID = 1L;
 
@@ -57,13 +57,13 @@ public class ChildFrame extends JFrame implements WindowListener {
 			int i = w / 15;
 			int j = h / 15;
 			while (w >= 0 && h >= 0) {
-				Thread.sleep(10);
+				Thread.sleep(10);				
 				setSize(w, h);
+				FrameUtils.setFrameAtScreenCenter(this, w, h);				
 				w -= i;
 				h -= j;
 			}
 		} catch (Exception e1) {
-
 		}
 	}
 

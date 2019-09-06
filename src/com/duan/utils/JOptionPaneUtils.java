@@ -29,9 +29,12 @@ public class JOptionPaneUtils {
 	 * @param mess
 	 */
 	public static void warningMess(Component messComponent, String mess) {
+		if(messComponent==null) {
+			return;
+		}
 		messComponent = ComponentUtils.getRootComponent(messComponent);
 		if (messComponent != null) {
-			UIManager.put("OptionPane.messageFont", new Font("宋体", Font.PLAIN, 13));
+			UIManager.put("OptionPane.messageFont", new Font("宋体", Font.PLAIN, 13));			
 			JOptionPane.showMessageDialog(messComponent, mess, "提示", JOptionPane.WARNING_MESSAGE,
 					ImageUtils.getImageIcon(Constant.JOPTIONPANE_WARING, 40, 40));
 		}

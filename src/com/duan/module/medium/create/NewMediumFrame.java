@@ -1,7 +1,6 @@
 package com.duan.module.medium.create;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -13,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
@@ -35,7 +35,8 @@ public class NewMediumFrame extends ChildFrame implements ActionListener {
 	private JButton saveButton;
 	private NewMediumFrame newMediumFrame = this;
 	private JComboBox<String> stateBox;
-	private JScrollPane jScrollPane;
+	private JPanel tableJPanel;
+	private JTable table;
 
 	/**
 	 * 新建材料窗体
@@ -79,40 +80,25 @@ public class NewMediumFrame extends ChildFrame implements ActionListener {
 		saveButton.addActionListener(this);
 		panel.add(saveButton);
 
+		tableJPanel =new JPanel();
+		tableJPanel.setBounds(5, 50, 775, 685);
+		tableJPanel.setBackground(Color.white);
+		tableJPanel.setLayout(null);
+		contentPanel.add(tableJPanel);
 		
+		addTablePanel();
 
-		jScrollPane = new JScrollPane(getTable());
-		jScrollPane.setViewportView(getTable());
-		jScrollPane.setBounds(5, 50, 775, 685);
-		jScrollPane.setBackground(SystemColor.menu);
-		
 		stateBox.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				jScrollPane.setViewportView(getTable());
-				
-				
+				addTablePanel();
 			}
 		});
-
-		contentPanel.add(jScrollPane);
-
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO 自动生成的方法存根
-		String name = nameFiled.getText();
-		if (name == null || name.trim().equals("")) {
-			JOptionPaneUtils.warningMess((Component) e.getSource(), "请输入介质名称");
-			return;
-		}
-		if (SerializeUtils.seriallized(newMediumFrame, newMediumFrame, Constant.MEDIUM_FOLDERPATH, name,
-				getMediumState().toString())) {
-			dispose();
-		}
+		serialized();
 	}
 
 	public MediumState getMediumState() {
@@ -123,24 +109,74 @@ public class NewMediumFrame extends ChildFrame implements ActionListener {
 		}
 	}
 
-	private JTable getTable() {
+	private void addTablePanel() {
+		tableJPanel.removeAll();
 		if (getMediumState().equals(MediumState.LIQUID)) {
 			String[][] content = new String[50][8];
 			String[] tableTitle = { "温度℃", "密度kg/m³", "焓kJ/kg", "比热容kJ/(kg.K)", "热导率W/(m.K)", "粘度mPa.s",
 					"运动粘度10^-5 m²/s", "表面张力mN/m" };
-			JTable table = new JTable(content, tableTitle);
+			table = new JTable(content, tableTitle);
 			FontUtils.setDefaultFont(table.getTableHeader());
 			FontUtils.setDefaultFont(table);
-
 			table.getColumnModel().getColumn(0).setPreferredWidth(20);
 			table.getColumnModel().getColumn(1).setPreferredWidth(40);
 			table.getColumnModel().getColumn(2).setPreferredWidth(40);
 			table.getColumnModel().getColumn(3).setPreferredWidth(60);
 			table.getColumnModel().getColumn(4).setPreferredWidth(50);
-			table.getColumnModel().getColumn(5).setPreferredWidth(50);
-			return table;
+			table.getColumnModel().getColumn(5).setPreferredWidth(50);		
+			JScrollPane jScrollPane = new JScrollPane(table);
+			jScrollPane.setBounds(0, 0, 775, 685);
+			jScrollPane.setBackground(SystemColor.menu);
+			tableJPanel.add(jScrollPane);
+			
+		} else {			
+			JTabbedPane jTabbedPane=new JTabbedPane();
+			
+			
+			String[][] content = new String[50][8];
+			String[] tableTitle = { "温度℃", "密度kg/m³","定压比热容kJ/(kg.K)","粘度mPa.s",  "热导率W/(m.K)", "粘度mPa.s",
+					"运动粘度10^-5 m²/s", "表面张力mN/m" };
+			table = new JTable(content, tableTitle);
+			FontUtils.setDefaultFont(table.getTableHeader());
+			FontUtils.setDefaultFont(table);
+			table.getColumnModel().getColumn(0).setPreferredWidth(20);
+			table.getColumnModel().getColumn(1).setPreferredWidth(40);
+			table.getColumnModel().getColumn(2).setPreferredWidth(40);
+			table.getColumnModel().getColumn(3).setPreferredWidth(60);
+			table.getColumnModel().getColumn(4).setPreferredWidth(50);
+			table.getColumnModel().getColumn(5).setPreferredWidth(50);		
+			
+			JScrollPane jScrollPane = new JScrollPane(table);
+			jScrollPane.setBounds(0, 0, 775, 685);
+			jScrollPane.setBackground(SystemColor.menu);
+			
+			jTabbedPane.add("0.1Mpa",jScrollPane);
+			jTabbedPane.setBounds(0, 0, 775, 685);
+			tableJPanel.add(jTabbedPane);
+			
+			
+			
+		}
+		tableJPanel.repaint();
+	}
+	public JTable getTable() {
+		return table;
+	}
+	
+	private void serialized() {
+		// TODO 自动生成的方法存根
+		String name = nameFiled.getText();
+		if (name == null || name.trim().equals("")) {
+			JOptionPaneUtils.warningMess(saveButton, "请输入介质名称");
+			return;
+		}		
+		if (table.isEditing())
+			table.getCellEditor().stopCellEditing();
+		if (SerializeUtils.seriallized(newMediumFrame, saveButton, Constant.MEDIUM_FOLDERPATH, name,
+				getMediumState().toString())) {
+			dispose();
 		} else {
-			return null;
+			JOptionPaneUtils.warningMess(saveButton, "保存失败");
 		}
 	}
 }

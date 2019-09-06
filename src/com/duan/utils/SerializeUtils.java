@@ -29,7 +29,7 @@ public class SerializeUtils {
 			File file = new File(folderPath + "/" + firstName + "." + lastName);
 			if (!floder.exists()) { // 若文件的目录不存在则创建
 				floder.mkdirs();
-			} 
+			}
 			if (!file.exists()) {// 判断文件是否存在
 				boolean isScucess = file.createNewFile();// 不存在先创建
 				if (!isScucess) {
@@ -70,8 +70,7 @@ public class SerializeUtils {
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
 		try {
-			// 弹出输入文件名对话框
-			String firstName = JOptionPaneUtils.inPutFileNameMess(messComp);
+			String firstName = JOptionPaneUtils.inPutFileNameMess(messComp);// 弹出输入文件名对话框
 			if (firstName == null) {
 				return false;
 			}
@@ -84,12 +83,10 @@ public class SerializeUtils {
 			}
 			File floder = new File(Constant.SERIALIZEFOLDER_PATH + "/" + folderName + "/");
 			File file = new File(Constant.SERIALIZEFOLDER_PATH + "/" + folderName + "/" + firstName + "." + lastName);
-			// 若文件的目录不存在则创建
-			if (!floder.exists()) {
+			if (!floder.exists()) {// 若文件的目录不存在则创建
 				floder.mkdirs();
 			}
-			// 判断文件是否存在
-			if (!file.exists()) {
+			if (!file.exists()) {// 判断文件是否存在
 				boolean isScucess = file.createNewFile();// 不存在先创建
 				while (!isScucess) {
 					JOptionPaneUtils.warningMess(messComp, firstName + "所输入文件名含有非法字符，请重新输入");
@@ -141,8 +138,11 @@ public class SerializeUtils {
 			fis = new FileInputStream(file);
 			ois = new ObjectInputStream(fis);
 			return ois.readObject();
-		} catch (IOException | ClassNotFoundException e) {
+		} catch (IOException e) {
 			JOptionPaneUtils.warningMess(messComp, "文件正在被占用，请先关闭");
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			JOptionPaneUtils.warningMess(messComp, "文件读取失败");
 			e.printStackTrace();
 		} finally {
 			StreamUtils.close(ois);
